@@ -17,7 +17,8 @@
     "layerStructure": {
       "left": "Array of 24 keys for left half (18 main + 6 thumb area)",
       "right": "Array of 24 keys for right half (18 main + 6 thumb area)",
-      "info": "Layer metadata with title and description"
+      "info": "Layer metadata with title and description",
+      "combos": "Array of combo definitions [{keys: [{side, index}, {side, index}], output: string}]"
     }
   },
   "base": {
@@ -82,7 +83,8 @@
     "info": {
       "title": "Base Layer",
       "description": "Primary typing layer with QWERTY layout. Hold keys show modifier and layer access functions."
-    }
+    },
+    "combos": []
   },
   "navnum": {
     "left": [
@@ -146,7 +148,8 @@
     "info": {
       "title": "NavNum Layer",
       "description": "Navigation and number pad layer. Arrow keys on the left, numpad on the right."
-    }
+    },
+    "combos": []
   },
   "symbols": {
     "left": [
@@ -210,7 +213,8 @@
     "info": {
       "title": "Symbols Layer",
       "description": "Symbol layer for programming and special characters. Quick access to brackets, operators, and punctuation."
-    }
+    },
+    "combos": []
   },
   "system": {
     "left": [
@@ -274,6 +278,7 @@
     "info": {
       "title": "System Layer",
       "description": "System functions including F-keys, Bluetooth profiles (BT 0-2), and bootloader access. ZMK Studio Unlock available."
-    }
+    },
+    "combos": []
   }
 }

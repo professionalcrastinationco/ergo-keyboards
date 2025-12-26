@@ -14,6 +14,84 @@ const MIN_ZOOM = 50;
 const MAX_ZOOM = 200;
 const ZOOM_STEP = 10;
 
+// Combo color palette (23 Tailwind colors for non-adjacent combo badges)
+const COMBO_COLORS = [
+    // 700 shades
+    '#c2410c', // orange-700
+    '#a16207', // yellow-700
+    '#15803d', // green-700
+    '#0f766e', // teal-700
+    '#0369a1', // sky-700
+    '#4338ca', // indigo-700
+    '#7e22ce', // purple-700
+    '#be185d', // pink-700
+    // 500 shades
+    '#f59e0b', // amber-500
+    '#84cc16', // lime-500
+    '#10b981', // emerald-500
+    '#06b6d4', // cyan-500
+    '#3b82f6', // blue-500
+    '#8b5cf6', // violet-500
+    '#d946ef', // fuchsia-500
+    // 300 shades
+    '#fdba74', // orange-300
+    '#fde047', // yellow-300
+    '#86efac', // green-300
+    '#5eead4', // teal-300
+    '#7dd3fc', // sky-300
+    '#a5b4fc', // indigo-300
+    '#d8b4fe', // purple-300
+    '#f9a8d4', // pink-300
+];
+
+/**
+ * Get the grid position of a key from its index
+ * @param {string} side - 'left' or 'right'
+ * @param {number} index - Key index (0-23)
+ * @returns {Object} {row, col, inThumb}
+ */
+function getKeyPosition(side, index) {
+    if (index < 18) {
+        return { row: Math.floor(index / 6), col: index % 6, inThumb: false };
+    }
+    return { row: 3, col: index - 18, inThumb: true };
+}
+
+/**
+ * Check if two keys are adjacent (same side, orthogonal neighbors)
+ * @param {Object} key1 - {side, index}
+ * @param {Object} key2 - {side, index}
+ * @returns {boolean}
+ */
+function areKeysAdjacent(key1, key2) {
+    // Must be same side
+    if (key1.side !== key2.side) return false;
+
+    const pos1 = getKeyPosition(key1.side, key1.index);
+    const pos2 = getKeyPosition(key2.side, key2.index);
+
+    // Both in main grid
+    if (!pos1.inThumb && !pos2.inThumb) {
+        const colDiff = Math.abs(pos1.col - pos2.col);
+        const rowDiff = Math.abs(pos1.row - pos2.row);
+        // Adjacent if orthogonal (not diagonal)
+        return (colDiff === 1 && rowDiff === 0) || (colDiff === 0 && rowDiff === 1);
+    }
+
+    // Both in thumb cluster - adjacent if sequential
+    if (pos1.inThumb && pos2.inThumb) {
+        return Math.abs(key1.index - key2.index) === 1;
+    }
+
+    // Main grid to thumb cluster boundary (index 17 → 18)
+    if ((key1.index === 17 && key2.index === 18) ||
+        (key1.index === 18 && key2.index === 17)) {
+        return true;
+    }
+
+    return false;
+}
+
 // LocalStorage persistence
 const STORAGE_KEY = 'keyboardEditor_layouts';
 
@@ -75,7 +153,8 @@ const DEFAULT_LAYOUTS = {
         info: {
             title: "Base Layer",
             description: "Primary typing layer with QWERTY layout. Hold keys show modifier and layer access functions."
-        }
+        },
+        combos: []
     },
     navnum: {
         left: [
@@ -133,7 +212,8 @@ const DEFAULT_LAYOUTS = {
         info: {
             title: "NavNum Layer",
             description: "Navigation and number pad layer. Arrow keys on the left, numpad on the right."
-        }
+        },
+        combos: []
     },
     symbols: {
         left: [
@@ -191,7 +271,8 @@ const DEFAULT_LAYOUTS = {
         info: {
             title: "Symbols Layer",
             description: "Symbol layer for programming and special characters. Quick access to brackets, operators, and punctuation."
-        }
+        },
+        combos: []
     },
     system: {
         left: [
@@ -249,7 +330,8 @@ const DEFAULT_LAYOUTS = {
         info: {
             title: "System Layer",
             description: "System functions including F-keys, Bluetooth profiles (BT 0-2), and bootloader access. ZMK Studio Unlock available."
-        }
+        },
+        combos: []
     }
 };
 
@@ -308,6 +390,12 @@ function loadLayouts() {
     const savedLayouts = loadFromLocalStorage();
     if (savedLayouts) {
         layouts = savedLayouts;
+        // Ensure combos array exists on each layer (backward compatibility)
+        for (const layer of ['base', 'navnum', 'symbols', 'system']) {
+            if (!layouts[layer].combos) {
+                layouts[layer].combos = [];
+            }
+        }
         updateSaveIndicator(true);
         return;
     }
@@ -724,7 +812,8 @@ function exportLayouts() {
             layerStructure: {
                 left: "Array of 24 keys for left half (18 main + 6 thumb area)",
                 right: "Array of 24 keys for right half (18 main + 6 thumb area)",
-                info: "Layer metadata with title and description"
+                info: "Layer metadata with title and description",
+                combos: "Array of combo definitions [{keys: [{side, index}, {side, index}], output: string}]"
             }
         },
         ...layouts
@@ -770,6 +859,10 @@ function validateLayoutData(data) {
         if (!data[layer].info || !data[layer].info.title) {
             return { valid: false, error: `Layer ${layer} missing info.title` };
         }
+        // Combos is optional, but if present must be an array
+        if (data[layer].combos !== undefined && !Array.isArray(data[layer].combos)) {
+            return { valid: false, error: `Layer ${layer} combos must be an array` };
+        }
     }
 
     return { valid: true, error: null };
@@ -796,6 +889,14 @@ async function importLayouts(file) {
 
         // Apply imported data
         layouts = layerData;
+
+        // Ensure combos array exists on each layer (backward compatibility)
+        for (const layer of ['base', 'navnum', 'symbols', 'system']) {
+            if (!layouts[layer].combos) {
+                layouts[layer].combos = [];
+            }
+        }
+
         saveToLocalStorage();
         renderLayout(currentLayer);
         deselectKey();
@@ -1157,5 +1258,9 @@ window.keyboardEditor = {
     importLayouts,
     resetToDefault,
     saveToLocalStorage,
-    loadFromLocalStorage
+    loadFromLocalStorage,
+    // Combo utilities (Phase 6)
+    COMBO_COLORS,
+    getKeyPosition,
+    areKeysAdjacent
 };
