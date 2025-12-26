@@ -62,7 +62,7 @@ Key deliverables:
 **Goal**: Display all combo types with clear visual indicators
 **Depends on**: Phase 3
 **Research**: Unlikely (internal UI patterns)
-**Plans**: TBD
+**Plans**: 1 (04-01-PLAN.md)
 
 Key deliverables:
 - Modifier+key display (e.g., "Shift+A" badge)
@@ -93,5 +93,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Data Layer Refactor | 1/1 | Complete | 2025-12-26 |
 | 2. Selection & Sidebar UI | 1/1 | Complete | 2025-12-26 |
 | 3. Real-time Editing | 1/1 | Complete | 2025-12-26 |
-| 4. Combo Visualization | 0/TBD | Not started | - |
+| 4. Combo Visualization | 0/1 | In Progress | - |
 | 5. Persistence & Export | 0/TBD | Not started | - |
