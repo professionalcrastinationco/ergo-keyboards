@@ -19,11 +19,13 @@
 
 ## Current Position
 
-Milestone: v1.0 MVP
-Status: SHIPPED
-Last activity: 2025-12-26 - Milestone complete, archived
+Milestone: v1.1 Enhanced Combo Visualization
+Phase: 6 of 8 (Combo Data Model)
+Plan: Not started
+Status: Ready to plan
+Last activity: 2025-12-26 - Milestone v1.1 created
 
-Progress: COMPLETE
+Progress: ░░░░░░░░░░ 0%
 
 ## Performance Metrics
 
@@ -73,6 +75,10 @@ Progress: COMPLETE
 | 5 | LocalStorage over IndexedDB | Simpler API, sufficient for layout data size |
 | 5 | Schema embedded in export | Self-documenting exports for sharing |
 | 5 | Validation checks structure only | Key values are freeform text, no strict validation needed |
+| v1.1 | Exit combo mode: ESC or click outside | Multiple intuitive exit methods |
+| v1.1 | Adjacent badge: centered at midpoint | Clean visual placement between keys |
+| v1.1 | Non-adjacent badge: bottom center | Consistent position, doesn't obscure labels |
+| v1.1 | Multi-combo: badges side by side | Allow keys in multiple combos, show all |
 
 ### Deferred Issues
 
@@ -84,13 +90,13 @@ None.
 
 ## Project Alignment
 
-Last checked: v1.0 ship
-Status: SHIPPED
-Assessment: All v1.0 success criteria met.
+Last checked: v1.1 milestone creation
+Status: In Progress
+Assessment: Starting v1.1 Enhanced Combo Visualization
 Drift notes: None
 
 ## Session Continuity
 
 Last session: 2025-12-26
-Stopped at: v1.0 MVP shipped
+Stopped at: Milestone v1.1 initialization
 Resume file: None
