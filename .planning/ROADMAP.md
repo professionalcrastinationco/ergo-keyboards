@@ -74,7 +74,7 @@ Key deliverables:
 **Goal**: Save work and enable sharing via JSON files
 **Depends on**: Phase 4
 **Research**: Unlikely (standard browser APIs - File API, LocalStorage)
-**Plans**: TBD
+**Plans**: 1 (05-01-PLAN.md)
 
 Key deliverables:
 - LocalStorage auto-save (persist between sessions)
@@ -94,4 +94,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Selection & Sidebar UI | 1/1 | Complete | 2025-12-26 |
 | 3. Real-time Editing | 1/1 | Complete | 2025-12-26 |
 | 4. Combo Visualization | 1/1 | Complete | 2025-12-26 |
-| 5. Persistence & Export | 0/TBD | Not started | - |
+| 5. Persistence & Export | 0/1 | In Progress | - |
