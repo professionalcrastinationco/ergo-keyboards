@@ -33,6 +33,44 @@
             </div>
         </div>
 
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Key Editor</h2>
+                <span class="selected-position" id="selected-position">No key selected</span>
+            </div>
+            <div class="sidebar-content" id="sidebar-content">
+                <div class="no-selection" id="no-selection">
+                    <p>Click a key to edit</p>
+                </div>
+                <div class="key-fields" id="key-fields" style="display: none;">
+                    <div class="field-group">
+                        <label for="field-primary">Primary Label</label>
+                        <input type="text" id="field-primary" placeholder="e.g., A, Tab, Enter">
+                    </div>
+                    <div class="field-group">
+                        <label for="field-secondary">Secondary Label</label>
+                        <input type="text" id="field-secondary" placeholder="e.g., shift symbol">
+                    </div>
+                    <div class="field-group">
+                        <label for="field-hold">Hold Modifier</label>
+                        <input type="text" id="field-hold" placeholder="e.g., Shift, Ctrl, L1">
+                    </div>
+                    <div class="field-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="field-accent">
+                            Accent (red background)
+                        </label>
+                    </div>
+                    <div class="field-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="field-highlight">
+                            Highlight (red border)
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
         <div class="legend">
             <div class="legend-item">
                 <div class="legend-color normal"></div>

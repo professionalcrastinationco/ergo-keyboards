@@ -7,6 +7,7 @@
 let layouts = null;
 let currentLayer = 'base';
 let currentZoom = 100;
+let selectedKey = null; // {layer, side, index}
 const MIN_ZOOM = 50;
 const MAX_ZOOM = 200;
 const ZOOM_STEP = 10;
@@ -135,6 +136,12 @@ function createKey(keyData, index, layer, side) {
         key.classList.remove('pressed');
     });
 
+    // Add click handler for selection
+    key.addEventListener('click', () => {
+        if (keyData.transparent) return; // Can't select transparent keys
+        selectKey(layer, side, index);
+    });
+
     return key;
 }
 
@@ -228,10 +235,79 @@ function updateKey(layer, side, index) {
 }
 
 /**
+ * Select a key for editing
+ * @param {string} layer - Layer name
+ * @param {string} side - 'left' or 'right'
+ * @param {number} index - Key index
+ */
+function selectKey(layer, side, index) {
+    // Deselect previous
+    if (selectedKey) {
+        const prevEl = getKeyElement(selectedKey.layer, selectedKey.side, selectedKey.index);
+        if (prevEl) prevEl.classList.remove('selected');
+    }
+
+    // Select new
+    selectedKey = { layer, side, index };
+    const newEl = getKeyElement(layer, side, index);
+    if (newEl) newEl.classList.add('selected');
+
+    // Update sidebar
+    updateSidebar();
+}
+
+/**
+ * Deselect the currently selected key
+ */
+function deselectKey() {
+    if (selectedKey) {
+        const el = getKeyElement(selectedKey.layer, selectedKey.side, selectedKey.index);
+        if (el) el.classList.remove('selected');
+        selectedKey = null;
+        updateSidebar();
+    }
+}
+
+/**
+ * Update the sidebar to reflect current selection
+ */
+function updateSidebar() {
+    const noSelection = document.getElementById('no-selection');
+    const keyFields = document.getElementById('key-fields');
+    const position = document.getElementById('selected-position');
+
+    if (!selectedKey) {
+        noSelection.style.display = 'block';
+        keyFields.style.display = 'none';
+        position.textContent = 'No key selected';
+        return;
+    }
+
+    noSelection.style.display = 'none';
+    keyFields.style.display = 'block';
+
+    const { layer, side, index } = selectedKey;
+    const keyData = layouts[layer][side][index];
+
+    // Update position indicator
+    position.textContent = `${layer} / ${side} / ${index}`;
+
+    // Populate fields
+    document.getElementById('field-primary').value = keyData.primary || '';
+    document.getElementById('field-secondary').value = keyData.secondary || '';
+    document.getElementById('field-hold').value = keyData.hold || '';
+    document.getElementById('field-accent').checked = keyData.accent || false;
+    document.getElementById('field-highlight').checked = keyData.highlight || false;
+}
+
+/**
  * Render a complete keyboard layout
  * @param {string} layer - Layer name to render
  */
 function renderLayout(layer) {
+    // Clear selection when changing layers
+    deselectKey();
+
     const layout = layouts[layer];
     const leftHalf = document.getElementById('left-half');
     const rightHalf = document.getElementById('right-half');
@@ -382,8 +458,11 @@ document.addEventListener('DOMContentLoaded', init);
 window.keyboardEditor = {
     layouts: () => layouts,
     currentLayer: () => currentLayer,
+    selectedKey: () => selectedKey,
     updateKey,
     getKeyElement,
     renderLayout,
-    setZoom
+    setZoom,
+    selectKey,
+    deselectKey
 };

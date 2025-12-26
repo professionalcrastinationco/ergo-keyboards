@@ -19,29 +19,30 @@
 
 ## Current Position
 
-Phase: 1 of 5 (Data Layer Refactor)
+Phase: 2 of 5 (Selection & Sidebar UI)
 Plan: 1 of 1 complete
 Status: Phase complete
-Last activity: 2025-12-26 - Completed 01-01-PLAN.md
+Last activity: 2025-12-26 - Completed 02-01-PLAN.md (Selection & Sidebar UI)
 
-Progress: ██░░░░░░░░ 20%
+Progress: ████░░░░░░ 40%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 5 min
-- Total execution time: 5 min
+- Total plans completed: 2
+- Average duration: 4 min
+- Total execution time: 8 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 | 1 | 5 min | 5 min |
+| 2 | 1 | 3 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 5m
-- Trend: First plan
+- Last 5 plans: 5m, 3m
+- Trend: Improving
 
 *Updated after each plan completion*
 
@@ -58,6 +59,9 @@ Progress: ██░░░░░░░░ 20%
 | 1 | Added _schema to layouts.json | Self-documenting JSON format |
 | 1 | window.keyboardEditor API | Console debugging and future editing features |
 | 1 | Data attributes on keys | Efficient single-key lookups for updateKey() |
+| 2 | Fixed sidebar position | Always visible while editing, doesn't scroll |
+| 2 | Transparent keys not selectable | No meaningful properties to edit |
+| 2 | Selection cleared on layer switch | Prevents stale state confusion |
 
 ### Deferred Issues
 
@@ -77,5 +81,5 @@ Drift notes: None
 ## Session Continuity
 
 Last session: 2025-12-26
-Stopped at: Completed Phase 1 - Data Layer Refactor
+Stopped at: Completed Phase 2 - Selection & Sidebar UI
 Resume file: None
