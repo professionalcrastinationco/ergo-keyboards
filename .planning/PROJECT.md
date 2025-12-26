@@ -1,5 +1,18 @@
 # Ergo Keyboard Layout Editor
 
+## Current State (Updated: 2025-12-26)
+
+**Shipped:** v1.0 MVP (2025-12-26)
+**Status:** Complete - functional offline web app
+**Codebase:** 4,863 LOC (JavaScript/CSS/JSON), vanilla JS, no dependencies
+
+**What shipped:**
+- Interactive keyboard layout editor for 36-key split ergonomic keyboards
+- Click any key, edit via sidebar panel (primary, secondary, hold, combos)
+- Combo visualization: modifier badges, layer-tap, chord notation
+- LocalStorage auto-save, JSON import/export
+- Works fully offline after initial load
+
 ## Vision
 
 A web-based cheat sheet and editor for ergonomic keyboard users. The app helps users visualize where characters, modifiers, and key combinations are located across multiple keyboard layers - and now lets them customize everything to match their personal keymap.
@@ -20,47 +33,14 @@ Ergonomic keyboard users create highly personalized keymaps with multiple layers
 
 **The gap:** A simple, visual, editable cheat sheet that works offline and exports to portable JSON.
 
-## Success Criteria
+## Success Criteria (v1.0)
 
-How we know this worked:
-
-- [ ] User can click any key and edit its primary/secondary labels instantly via sidebar
-- [ ] All combo types display correctly: modifier+key, layer-tap (hold behavior), chords
-- [ ] JSON export produces a file user can download and re-import later
-- [ ] JSON import restores a previously saved layout completely
-- [ ] App works fully offline after initial page load
-- [ ] Editing flow feels instant - no lag, no friction, no extra clicks
-
-## Scope
-
-### Building
-- Sidebar panel editor (select key, edit in sidebar with all fields visible)
-- Editable key labels: primary, secondary, hold modifier
-- Visual combo indicators (modifier badges, hold behavior, chord display)
-- JSON export (download button, custom app format)
-- JSON import (file picker or drag-drop, restores full layout)
-- 4 layer support (base, navnum, symbols, system)
-- Zoom and navigation (keep existing functionality)
-- LocalStorage auto-save (persist edits between sessions)
-
-### Not Building
-- ZMK/QMK keymap file import (future version)
-- Multiple keyboard layouts (only current 36-key split design)
-- Cloud sync or user accounts
-- Mobile-optimized editing (view-only is fine on mobile)
-- Keyboard layout designer (physical key positions are fixed)
-
-## Context
-
-**Current state:** Working static viewer with 4 layers, zoom controls, and keyboard shortcuts. All layout data hardcoded in JavaScript. Single HTML file (~960 lines) with inline CSS and JS.
-
-**Codebase mapped:** `.planning/codebase/` contains full analysis (stack, architecture, conventions, concerns).
-
-**Key technical notes:**
-- Vanilla JS, no build tools, no dependencies
-- Layout data stored as `layouts` object with left/right arrays
-- Each key has: `primary`, `secondary`, `hold`, `transparent`, `accent`, `highlight`, `rotated`
-- DOM rendering via `createKey()` and `renderLayout()` functions
+- [x] User can click any key and edit its primary/secondary labels instantly via sidebar
+- [x] All combo types display correctly: modifier+key, layer-tap (hold behavior), chords
+- [x] JSON export produces a file user can download and re-import later
+- [x] JSON import restores a previously saved layout completely
+- [x] App works fully offline after initial page load
+- [x] Editing flow feels instant - no lag, no friction, no extra clicks
 
 ## Constraints
 
@@ -70,7 +50,7 @@ How we know this worked:
 
 ## Decisions Made
 
-Key decisions from project exploration:
+Key decisions from v1.0 development:
 
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
@@ -78,16 +58,9 @@ Key decisions from project exploration:
 | Data format | Custom JSON | Simpler than parsing ZMK/QMK, future import can be added |
 | Combo types | All three | Modifier+key, layer-tap, chords - users need complete representation |
 | Persistence | LocalStorage + export | Offline-first, no server required |
-| File structure | Can split files | Open to CSS/JS separation for maintainability |
-
-## Open Questions
-
-Things to figure out during execution:
-
-- [ ] Sidebar position: left side or right side? (probably right, since keyboard is centered)
-- [ ] Chord notation: how to visually represent "press A+B together = C"?
-- [ ] Key selection: single-click to select, or hover-to-preview + click-to-lock?
-- [ ] JSON schema: what structure makes import/export cleanest?
+| File structure | Split files | CSS/JS/JSON separation for maintainability |
 
 ---
-*Initialized: 2025-12-26*
+
+*v1.0 MVP shipped: 2025-12-26*
+*See .planning/MILESTONES.md for full history*
