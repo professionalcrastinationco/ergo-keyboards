@@ -9,7 +9,10 @@
       "transparent": "Invisible/placeholder key (boolean, optional)",
       "accent": "Special key styling (boolean, optional)",
       "highlight": "Highlighted key with border (boolean, optional)",
-      "rotated": "Thumb key rotation direction: 'left' or 'right' (string, optional)"
+      "rotated": "Thumb key rotation direction: 'left' or 'right' (string, optional)",
+      "tap": "Tap behavior label for layer-tap keys (string, optional)",
+      "modifierKey": "Modifier+key combo display, e.g. 'Ctrl+C' (string, optional)",
+      "chord": "Chord definition {keys: [...], output: '...'} (object, optional)"
     },
     "layerStructure": {
       "left": "Array of 24 keys for left half (18 main + 6 thumb area)",

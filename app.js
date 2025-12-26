@@ -159,26 +159,63 @@ function rebuildKeyContent(keyEl, keyData) {
     // Clear existing content (but preserve event listeners)
     keyEl.innerHTML = '';
 
-    // Primary label
-    const primary = document.createElement('div');
-    primary.className = 'primary';
-    primary.textContent = keyData.primary || '';
-    keyEl.appendChild(primary);
-
-    // Secondary label
-    if (keyData.secondary) {
-        const secondary = document.createElement('div');
-        secondary.className = 'secondary';
-        secondary.textContent = keyData.secondary;
-        keyEl.appendChild(secondary);
+    // Modifier combo badge (top-right)
+    if (keyData.modifierKey) {
+        const badge = document.createElement('div');
+        badge.className = 'combo-badge';
+        badge.textContent = keyData.modifierKey;
+        keyEl.appendChild(badge);
     }
 
-    // Hold indicator
-    if (keyData.hold) {
-        const hold = document.createElement('div');
-        hold.className = 'hold-indicator';
-        hold.textContent = keyData.hold;
-        keyEl.appendChild(hold);
+    // Layer-tap: explicit tap + hold rendering
+    if (keyData.tap && keyData.hold) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'layer-tap-wrapper';
+
+        const tapLabel = document.createElement('div');
+        tapLabel.className = 'tap-label';
+        tapLabel.textContent = keyData.tap;
+        wrapper.appendChild(tapLabel);
+
+        const holdLabel = document.createElement('div');
+        holdLabel.className = 'hold-label';
+        holdLabel.textContent = keyData.hold;
+        wrapper.appendChild(holdLabel);
+
+        keyEl.appendChild(wrapper);
+    } else {
+        // Standard rendering (existing logic)
+        // Primary label
+        const primary = document.createElement('div');
+        primary.className = 'primary';
+        primary.textContent = keyData.primary || '';
+        keyEl.appendChild(primary);
+
+        // Secondary label
+        if (keyData.secondary) {
+            const secondary = document.createElement('div');
+            secondary.className = 'secondary';
+            secondary.textContent = keyData.secondary;
+            keyEl.appendChild(secondary);
+        }
+
+        // Hold indicator
+        if (keyData.hold) {
+            const hold = document.createElement('div');
+            hold.className = 'hold-indicator';
+            hold.textContent = keyData.hold;
+            keyEl.appendChild(hold);
+        }
+    }
+
+    // Chord notation (bottom)
+    if (keyData.chord && keyData.chord.keys && keyData.chord.output) {
+        const chord = document.createElement('div');
+        chord.className = 'chord-notation';
+        chord.innerHTML = keyData.chord.keys.join('+') +
+            '<span class="chord-arrow">→</span>' +
+            keyData.chord.output;
+        keyEl.appendChild(chord);
     }
 }
 
@@ -302,6 +339,14 @@ function updateSidebar() {
     document.getElementById('field-hold').value = keyData.hold || '';
     document.getElementById('field-accent').checked = keyData.accent || false;
     document.getElementById('field-highlight').checked = keyData.highlight || false;
+
+    // Populate combo fields
+    document.getElementById('field-tap').value = keyData.tap || '';
+    document.getElementById('field-modifier-key').value = keyData.modifierKey || '';
+    document.getElementById('field-chord-keys').value =
+        keyData.chord ? keyData.chord.keys.join('+') : '';
+    document.getElementById('field-chord-output').value =
+        keyData.chord ? keyData.chord.output : '';
 }
 
 /**
@@ -358,6 +403,9 @@ function clearSelectedKey() {
         primary: '',
         secondary: '',
         hold: '',
+        tap: '',
+        modifierKey: '',
+        chord: null,
         accent: false,
         highlight: false
     };
@@ -504,6 +552,59 @@ function initSidebarListeners() {
         saveUndoState();
         const { layer, side, index } = selectedKey;
         layouts[layer][side][index].highlight = e.target.checked;
+        updateKey(layer, side, index);
+        getKeyElement(layer, side, index).classList.add('selected');
+    });
+
+    // Combo fields
+    document.getElementById('field-tap').addEventListener('input', (e) => {
+        if (!selectedKey) return;
+        saveUndoState();
+        const { layer, side, index } = selectedKey;
+        layouts[layer][side][index].tap = e.target.value || undefined;
+        updateKey(layer, side, index);
+        getKeyElement(layer, side, index).classList.add('selected');
+    });
+
+    document.getElementById('field-modifier-key').addEventListener('input', (e) => {
+        if (!selectedKey) return;
+        saveUndoState();
+        const { layer, side, index } = selectedKey;
+        layouts[layer][side][index].modifierKey = e.target.value || undefined;
+        updateKey(layer, side, index);
+        getKeyElement(layer, side, index).classList.add('selected');
+    });
+
+    // Chord fields need to create/update chord object
+    document.getElementById('field-chord-keys').addEventListener('input', (e) => {
+        if (!selectedKey) return;
+        saveUndoState();
+        const { layer, side, index } = selectedKey;
+        const keyData = layouts[layer][side][index];
+        const keys = e.target.value ? e.target.value.split('+').map(k => k.trim()) : null;
+        if (keys && keys.length > 0 && keys[0] !== '') {
+            keyData.chord = keyData.chord || {};
+            keyData.chord.keys = keys;
+        } else if (keyData.chord) {
+            delete keyData.chord.keys;
+            if (!keyData.chord.output) delete keyData.chord;
+        }
+        updateKey(layer, side, index);
+        getKeyElement(layer, side, index).classList.add('selected');
+    });
+
+    document.getElementById('field-chord-output').addEventListener('input', (e) => {
+        if (!selectedKey) return;
+        saveUndoState();
+        const { layer, side, index } = selectedKey;
+        const keyData = layouts[layer][side][index];
+        if (e.target.value) {
+            keyData.chord = keyData.chord || {};
+            keyData.chord.output = e.target.value;
+        } else if (keyData.chord) {
+            delete keyData.chord.output;
+            if (!keyData.chord.keys) delete keyData.chord;
+        }
         updateKey(layer, side, index);
         getKeyElement(layer, side, index).classList.add('selected');
     });

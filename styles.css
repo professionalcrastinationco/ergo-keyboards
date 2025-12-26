@@ -540,3 +540,72 @@ footer {
         max-width: 100%;
     }
 }
+
+/* Combo Badges */
+.combo-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: rgba(74, 158, 255, 0.3);
+    border: 1px solid rgba(74, 158, 255, 0.5);
+    border-radius: 8px;
+    padding: 1px 5px;
+    font-size: 8px;
+    color: #4a9eff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Layer-tap indicator - shows tap on top, hold on bottom */
+.layer-tap-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.tap-label {
+    font-size: 11px;
+    color: #fff;
+}
+
+.hold-label {
+    font-size: 9px;
+    color: #888;
+    border-top: 1px dashed #444;
+    padding-top: 2px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Chord notation */
+.chord-notation {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 7px;
+    color: #ffa500;
+    white-space: nowrap;
+}
+
+.chord-notation .chord-arrow {
+    color: #666;
+    margin: 0 2px;
+}
+
+/* Section styling for sidebar */
+.field-section {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #3d3d5c;
+}
+
+.section-title {
+    color: #888;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
