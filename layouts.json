@@ -1,0 +1,276 @@
+{
+  "_schema": {
+    "description": "ZMK Keyboard Layout Editor - Layout Data Schema",
+    "version": "1.0.0",
+    "keyProperties": {
+      "primary": "Main key label (string, required)",
+      "secondary": "Secondary label below primary (string, optional)",
+      "hold": "Hold modifier indicator (string, optional)",
+      "transparent": "Invisible/placeholder key (boolean, optional)",
+      "accent": "Special key styling (boolean, optional)",
+      "highlight": "Highlighted key with border (boolean, optional)",
+      "rotated": "Thumb key rotation direction: 'left' or 'right' (string, optional)"
+    },
+    "layerStructure": {
+      "left": "Array of 24 keys for left half (18 main + 6 thumb area)",
+      "right": "Array of 24 keys for right half (18 main + 6 thumb area)",
+      "info": "Layer metadata with title and description"
+    }
+  },
+  "base": {
+    "left": [
+      { "primary": "TAB" },
+      { "primary": "Q" },
+      { "primary": "W", "hold": "@" },
+      { "primary": "E", "hold": "#" },
+      { "primary": "R", "hold": "$" },
+      { "primary": "T", "hold": "%" },
+
+      { "primary": "LSHFT" },
+      { "primary": "A" },
+      { "primary": "S", "hold": "\\" },
+      { "primary": "D", "secondary": "ESCAPE", "hold": "=" },
+      { "primary": "F", "secondary": "PASTE", "hold": "=" },
+      { "primary": "G", "secondary": "COPY" },
+
+      { "primary": "LCTRL" },
+      { "primary": "Z" },
+      { "primary": "X" },
+      { "primary": "V" },
+      { "primary": "B" },
+      { "primary": "", "transparent": true },
+
+      { "primary": "", "transparent": true },
+      { "primary": "", "transparent": true },
+      { "primary": "", "transparent": true },
+      { "primary": "LGUI" },
+      { "primary": "NavNum", "secondary": "" },
+      { "primary": "SPACE" }
+    ],
+    "right": [
+      { "primary": "Y" },
+      { "primary": "U", "hold": "+" },
+      { "primary": "I", "hold": "*" },
+      { "primary": "O", "hold": "{" },
+      { "primary": "P" },
+      { "primary": "BACKSPACE" },
+
+      { "primary": "H" },
+      { "primary": "J", "hold": "{", "secondary": "KP" },
+      { "primary": "K", "hold": "/" },
+      { "primary": "L", "hold": "}" },
+      { "primary": ";" },
+      { "primary": "'" },
+
+      { "primary": "N" },
+      { "primary": "M", "secondary": "MINUS", "hold": "[" },
+      { "primary": ",", "hold": "]" },
+      { "primary": "." },
+      { "primary": "/" },
+      { "primary": "RSHFT" },
+
+      { "primary": "", "transparent": true },
+      { "primary": "RET" },
+      { "primary": "TAB", "secondary": "Symbols" },
+      { "primary": "RIGHT", "secondary": "ALT" },
+      { "primary": "", "transparent": true },
+      { "primary": "", "transparent": true }
+    ],
+    "info": {
+      "title": "Base Layer",
+      "description": "Primary typing layer with QWERTY layout. Hold keys show modifier and layer access functions."
+    }
+  },
+  "navnum": {
+    "left": [
+      { "primary": "", "hold": "\\" },
+      { "primary": "1" },
+      { "primary": "2", "hold": "@" },
+      { "primary": "3", "hold": "#" },
+      { "primary": "4", "hold": "$" },
+      { "primary": "5", "hold": "%" },
+
+      { "primary": "&caps_wo", "secondary": "" },
+      { "primary": "", "hold": "\\" },
+      { "primary": "UP", "secondary": "ARROW", "hold": "=" },
+      { "primary": "", "secondary": "browser", "hold": "=" },
+      { "primary": "PAGE", "secondary": "UP" },
+      { "primary": "" },
+
+      { "primary": "" },
+      { "primary": "LEFT", "secondary": "PASTE", "hold": "=" },
+      { "primary": "", "secondary": "ESCAPE", "hold": "=" },
+      { "primary": "RIGHT", "secondary": "COPY", "hold": "=" },
+      { "primary": "PAGE", "secondary": "DOWN" },
+      { "primary": "", "transparent": true },
+
+      { "primary": "", "transparent": true },
+      { "primary": "", "transparent": true },
+      { "primary": "", "transparent": true },
+      { "primary": "LGUI" },
+      { "primary": "", "accent": true },
+      { "primary": "SPACE" }
+    ],
+    "right": [
+      { "primary": "6" },
+      { "primary": "7", "hold": "+" },
+      { "primary": "8", "hold": "*" },
+      { "primary": "9", "hold": "{" },
+      { "primary": "0" },
+      { "primary": "" },
+
+      { "primary": "0" },
+      { "primary": "4", "hold": "{", "secondary": "" },
+      { "primary": "5", "hold": "/" },
+      { "primary": "6", "hold": "}" },
+      { "primary": "" },
+      { "primary": "" },
+
+      { "primary": "", "secondary": "KP MINUS", "hold": "[" },
+      { "primary": "1", "hold": "[" },
+      { "primary": "2", "hold": "]" },
+      { "primary": "3", "hold": "]" },
+      { "primary": "" },
+      { "primary": "" },
+
+      { "primary": "", "transparent": true },
+      { "primary": "RET" },
+      { "primary": "" },
+      { "primary": "" },
+      { "primary": "", "transparent": true },
+      { "primary": "", "transparent": true }
+    ],
+    "info": {
+      "title": "NavNum Layer",
+      "description": "Navigation and number pad layer. Arrow keys on the left, numpad on the right."
+    }
+  },
+  "symbols": {
+    "left": [
+      { "primary": "" },
+      { "primary": "!" },
+      { "primary": "@", "hold": "@" },
+      { "primary": "#", "hold": "#" },
+      { "primary": "$", "hold": "$" },
+      { "primary": "%", "hold": "%" },
+
+      { "primary": "" },
+      { "primary": "" },
+      { "primary": "UP", "secondary": "ARROW", "hold": "=" },
+      { "primary": "", "secondary": "ESCAPE", "hold": "=" },
+      { "primary": "", "secondary": "PASTE", "hold": "=" },
+      { "primary": "~" },
+
+      { "primary": "" },
+      { "primary": "LEFT", "secondary": "ARROW", "hold": "\\" },
+      { "primary": "", "hold": "=" },
+      { "primary": "RIGHT", "secondary": "ARROW", "hold": "=" },
+      { "primary": "-" },
+      { "primary": "", "transparent": true },
+
+      { "primary": "", "transparent": true },
+      { "primary": "", "transparent": true },
+      { "primary": "", "transparent": true },
+      { "primary": "LGUI" },
+      { "primary": "" },
+      { "primary": "SPACE" }
+    ],
+    "right": [
+      { "primary": "^" },
+      { "primary": "&", "hold": "+" },
+      { "primary": "*", "hold": "*" },
+      { "primary": "(", "hold": "{" },
+      { "primary": ")" },
+      { "primary": "" },
+
+      { "primary": "-" },
+      { "primary": "{", "hold": "[" },
+      { "primary": "}", "hold": "/" },
+      { "primary": "]", "hold": "}" },
+      { "primary": "" },
+      { "primary": "\\" },
+
+      { "primary": "+", "secondary": "KP MINUS", "hold": "[" },
+      { "primary": "{", "hold": "]" },
+      { "primary": "}", "hold": "]" },
+      { "primary": "}" },
+      { "primary": "|" },
+      { "primary": "" },
+
+      { "primary": "", "transparent": true },
+      { "primary": "RET" },
+      { "primary": "", "accent": true },
+      { "primary": "" },
+      { "primary": "", "transparent": true },
+      { "primary": "", "transparent": true }
+    ],
+    "info": {
+      "title": "Symbols Layer",
+      "description": "Symbol layer for programming and special characters. Quick access to brackets, operators, and punctuation."
+    }
+  },
+  "system": {
+    "left": [
+      { "primary": "" },
+      { "primary": "F1" },
+      { "primary": "F2", "hold": "@" },
+      { "primary": "F3", "hold": "#" },
+      { "primary": "F4", "hold": "$" },
+      { "primary": "F5", "hold": "%" },
+
+      { "primary": "" },
+      { "primary": "F12" },
+      { "primary": "F11", "hold": "\\" },
+      { "primary": "", "secondary": "ESCAPE", "hold": "=" },
+      { "primary": "", "secondary": "PASTE", "hold": "=" },
+      { "primary": "", "highlight": true },
+
+      { "primary": "" },
+      { "primary": "BT", "secondary": "0" },
+      { "primary": "BT", "secondary": "1" },
+      { "primary": "BT", "secondary": "2", "hold": "=" },
+      { "primary": "BT CLR" },
+      { "primary": "BT CLR", "secondary": "ALL", "highlight": true },
+
+      { "primary": "", "transparent": true },
+      { "primary": "", "transparent": true },
+      { "primary": "", "transparent": true },
+      { "primary": "" },
+      { "primary": "", "accent": true },
+      { "primary": "", "accent": true }
+    ],
+    "right": [
+      { "primary": "F6" },
+      { "primary": "F7", "hold": "+" },
+      { "primary": "F8", "hold": "*" },
+      { "primary": "F9", "hold": "{" },
+      { "primary": "F10" },
+      { "primary": "" },
+
+      { "primary": "" },
+      { "primary": "", "hold": "{" },
+      { "primary": "", "hold": "/" },
+      { "primary": "", "hold": "}" },
+      { "primary": "" },
+      { "primary": "" },
+
+      { "primary": "", "secondary": "KP MINUS", "hold": "-" },
+      { "primary": "", "hold": "[" },
+      { "primary": "", "hold": "]" },
+      { "primary": "" },
+      { "primary": "&bootload", "secondary": "" },
+      { "primary": "" },
+
+      { "primary": "", "transparent": true },
+      { "primary": "" },
+      { "primary": "", "accent": true },
+      { "primary": "", "accent": true },
+      { "primary": "", "transparent": true },
+      { "primary": "", "transparent": true }
+    ],
+    "info": {
+      "title": "System Layer",
+      "description": "System functions including F-keys, Bluetooth profiles (BT 0-2), and bootloader access. ZMK Studio Unlock available."
+    }
+  }
+}

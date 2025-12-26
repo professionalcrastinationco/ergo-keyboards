@@ -14,7 +14,7 @@ None
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
-- [ ] **Phase 1: Data Layer Refactor** - Extract layouts to JSON, enable dynamic rendering
+- [x] **Phase 1: Data Layer Refactor** - Extract layouts to JSON, enable dynamic rendering
 - [ ] **Phase 2: Selection & Sidebar UI** - Build sidebar panel, implement key selection
 - [ ] **Phase 3: Real-time Editing** - Live key editing with instant visual updates
 - [ ] **Phase 4: Combo Visualization** - Modifier badges, layer-tap, chord notation
@@ -90,7 +90,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Data Layer Refactor | 0/1 | In progress | - |
+| 1. Data Layer Refactor | 1/1 | Complete | 2025-12-26 |
 | 2. Selection & Sidebar UI | 0/TBD | Not started | - |
 | 3. Real-time Editing | 0/TBD | Not started | - |
 | 4. Combo Visualization | 0/TBD | Not started | - |

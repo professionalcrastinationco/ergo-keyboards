@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZMK Keyboard Layout Editor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>ZMK Keyboard Layout</h1>
+
+        <div class="layer-tabs">
+            <button class="layer-tab active" data-layer="base">Base</button>
+            <button class="layer-tab" data-layer="navnum">NavNum</button>
+            <button class="layer-tab" data-layer="symbols">Symbols</button>
+            <button class="layer-tab" data-layer="system">System</button>
+        </div>
+
+        <div class="zoom-controls">
+            <button class="zoom-btn" id="zoom-out" title="Zoom Out (-)">-</button>
+            <input type="range" class="zoom-slider" id="zoom-slider" min="50" max="200" value="100">
+            <button class="zoom-btn" id="zoom-in" title="Zoom In (+)">+</button>
+            <span class="zoom-level" id="zoom-level">100%</span>
+            <button class="zoom-btn zoom-reset" id="zoom-reset" title="Reset Zoom (0)">Reset</button>
+            <span class="zoom-hint">Ctrl+Scroll or +/-</span>
+        </div>
+
+        <div class="keyboard-wrapper" id="keyboard-wrapper">
+            <div class="keyboard-container" id="keyboard-container">
+                <div class="half left-half" id="left-half"></div>
+                <div class="half right-half" id="right-half"></div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color normal"></div>
+                <span>Normal Key</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color hold"></div>
+                <span>Hold Function</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color accent"></div>
+                <span>Special Key</span>
+            </div>
+        </div>
+
+        <div class="layer-info" id="layer-info">
+            <h3>Base Layer</h3>
+            <p>Primary typing layer with QWERTY layout. Hold keys show modifier and layer access functions.</p>
+        </div>
+
+        <footer>Created with Interactive Keyboard Layout Editor</footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
