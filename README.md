@@ -3,4 +3,4 @@
 ## Test It Out Here
 https://professionalcrastinationco.github.io/ergo-keyboards/
 
-<a href="https://professionalcrastinationco.github.io/ergo-keyboards" target="_blank" rel="noopener noreferrer">Click Here</a>
+<a href="https://professionalcrastinationco.github.io/ergo-keyboards" target="_new" rel="noopener noreferrer">Click Here 2</a>
