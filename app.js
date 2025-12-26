@@ -14,15 +14,76 @@ const MIN_ZOOM = 50;
 const MAX_ZOOM = 200;
 const ZOOM_STEP = 10;
 
+// LocalStorage persistence
+const STORAGE_KEY = 'keyboardEditor_layouts';
+
 // Zoom state
 let baseHeight = null;
 let baseWidth = null;
 
 /**
- * Load layouts from JSON file
+ * Save current layouts to LocalStorage
+ */
+function saveToLocalStorage() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(layouts));
+        updateSaveIndicator(true);
+    } catch (error) {
+        console.warn('Failed to save to LocalStorage:', error);
+    }
+}
+
+/**
+ * Load layouts from LocalStorage if available
+ * @returns {Object|null} Saved layouts or null
+ */
+function loadFromLocalStorage() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            return JSON.parse(saved);
+        }
+    } catch (error) {
+        console.warn('Failed to load from LocalStorage:', error);
+    }
+    return null;
+}
+
+/**
+ * Update save indicator in UI
+ * @param {boolean} hasSaved - Whether there's saved data
+ */
+function updateSaveIndicator(hasSaved) {
+    const indicator = document.getElementById('save-indicator');
+    if (indicator) {
+        indicator.textContent = hasSaved ? 'Saved' : 'Default';
+        indicator.className = 'save-indicator ' + (hasSaved ? 'saved' : 'default');
+    }
+}
+
+/**
+ * Load layouts from JSON file or LocalStorage
  * @returns {Promise<void>}
  */
 async function loadLayouts() {
+    // Try LocalStorage first
+    const savedLayouts = loadFromLocalStorage();
+    if (savedLayouts) {
+        layouts = savedLayouts;
+        // Still fetch original for reset functionality
+        try {
+            const response = await fetch('layouts.json');
+            const data = await response.json();
+            const { _schema, ...layerData } = data;
+            originalLayouts = layerData;
+        } catch (error) {
+            originalLayouts = JSON.parse(JSON.stringify(layouts));
+        }
+        updateSaveIndicator(true);
+        return;
+    }
+
+    // Fall back to fetch from file
     try {
         const response = await fetch('layouts.json');
         if (!response.ok) {
@@ -34,6 +95,7 @@ async function loadLayouts() {
         layouts = layerData;
         // Store deep copy of original layouts for reset functionality
         originalLayouts = JSON.parse(JSON.stringify(layouts));
+        updateSaveIndicator(false);
     } catch (error) {
         console.error('Error loading layouts:', error);
         // Show error to user
@@ -412,6 +474,7 @@ function clearSelectedKey() {
     updateKey(layer, side, index);
     getKeyElement(layer, side, index).classList.add('selected');
     updateSidebar();
+    saveToLocalStorage();
 }
 
 /**
@@ -428,6 +491,151 @@ function resetSelectedKey() {
     updateKey(layer, side, index);
     getKeyElement(layer, side, index).classList.add('selected');
     updateSidebar();
+    saveToLocalStorage();
+}
+
+/**
+ * Export current layouts as JSON file download
+ */
+function exportLayouts() {
+    // Rebuild full JSON with schema
+    const exportData = {
+        _schema: {
+            description: "ZMK Keyboard Layout Editor - Layout Data Schema",
+            version: "1.0.0",
+            keyProperties: {
+                primary: "Main key label (string, required)",
+                secondary: "Secondary label below primary (string, optional)",
+                hold: "Hold modifier indicator (string, optional)",
+                transparent: "Invisible/placeholder key (boolean, optional)",
+                accent: "Special key styling (boolean, optional)",
+                highlight: "Highlighted key with border (boolean, optional)",
+                tap: "Tap behavior label for layer-tap keys (string, optional)",
+                modifierKey: "Modifier+key combo display (string, optional)",
+                chord: "Chord definition {keys: [...], output: '...'} (object, optional)"
+            },
+            layerStructure: {
+                left: "Array of 24 keys for left half (18 main + 6 thumb area)",
+                right: "Array of 24 keys for right half (18 main + 6 thumb area)",
+                info: "Layer metadata with title and description"
+            }
+        },
+        ...layouts
+    };
+
+    const json = JSON.stringify(exportData, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
+    const timestamp = new Date().toISOString().slice(0, 10);
+    const filename = `keyboard-layout-${timestamp}.json`;
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+/**
+ * Validate imported layout data structure
+ * @param {Object} data - Parsed JSON data
+ * @returns {Object} {valid: boolean, error: string|null}
+ */
+function validateLayoutData(data) {
+    const requiredLayers = ['base', 'navnum', 'symbols', 'system'];
+
+    for (const layer of requiredLayers) {
+        if (!data[layer]) {
+            return { valid: false, error: `Missing required layer: ${layer}` };
+        }
+        if (!data[layer].left || !Array.isArray(data[layer].left)) {
+            return { valid: false, error: `Layer ${layer} missing 'left' array` };
+        }
+        if (!data[layer].right || !Array.isArray(data[layer].right)) {
+            return { valid: false, error: `Layer ${layer} missing 'right' array` };
+        }
+        if (data[layer].left.length !== 24 || data[layer].right.length !== 24) {
+            return { valid: false, error: `Layer ${layer} must have 24 keys per side` };
+        }
+        if (!data[layer].info || !data[layer].info.title) {
+            return { valid: false, error: `Layer ${layer} missing info.title` };
+        }
+    }
+
+    return { valid: true, error: null };
+}
+
+/**
+ * Import layouts from file
+ * @param {File} file - JSON file to import
+ */
+async function importLayouts(file) {
+    try {
+        const text = await file.text();
+        const data = JSON.parse(text);
+
+        // Remove schema if present
+        const { _schema, ...layerData } = data;
+
+        // Validate structure
+        const validation = validateLayoutData(layerData);
+        if (!validation.valid) {
+            showNotification(validation.error, 'error');
+            return;
+        }
+
+        // Apply imported data
+        layouts = layerData;
+        saveToLocalStorage();
+        renderLayout(currentLayer);
+        deselectKey();
+
+        showNotification('Layout imported successfully', 'success');
+    } catch (error) {
+        showNotification('Invalid JSON file: ' + error.message, 'error');
+    }
+}
+
+/**
+ * Show notification message
+ * @param {string} message - Message to display
+ * @param {string} type - 'success' or 'error'
+ */
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.classList.add('fade-out');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+/**
+ * Reset layouts to original default state
+ */
+function resetToDefault() {
+    if (!confirm('Reset all layouts to default? This will discard all your changes.')) {
+        return;
+    }
+
+    // Clear LocalStorage
+    localStorage.removeItem(STORAGE_KEY);
+
+    // Restore from original
+    layouts = JSON.parse(JSON.stringify(originalLayouts));
+
+    // Re-render
+    renderLayout(currentLayer);
+    deselectKey();
+    updateSaveIndicator(false);
+
+    showNotification('Reset to default layout', 'success');
 }
 
 /**
@@ -517,6 +725,7 @@ function initSidebarListeners() {
         updateKey(layer, side, index);
         // Re-add selected class (updateKey resets classes)
         getKeyElement(layer, side, index).classList.add('selected');
+        saveToLocalStorage();
     });
 
     document.getElementById('field-secondary').addEventListener('input', (e) => {
@@ -526,6 +735,7 @@ function initSidebarListeners() {
         layouts[layer][side][index].secondary = e.target.value;
         updateKey(layer, side, index);
         getKeyElement(layer, side, index).classList.add('selected');
+        saveToLocalStorage();
     });
 
     document.getElementById('field-hold').addEventListener('input', (e) => {
@@ -535,6 +745,7 @@ function initSidebarListeners() {
         layouts[layer][side][index].hold = e.target.value;
         updateKey(layer, side, index);
         getKeyElement(layer, side, index).classList.add('selected');
+        saveToLocalStorage();
     });
 
     // Checkboxes - update on change
@@ -545,6 +756,7 @@ function initSidebarListeners() {
         layouts[layer][side][index].accent = e.target.checked;
         updateKey(layer, side, index);
         getKeyElement(layer, side, index).classList.add('selected');
+        saveToLocalStorage();
     });
 
     document.getElementById('field-highlight').addEventListener('change', (e) => {
@@ -554,6 +766,7 @@ function initSidebarListeners() {
         layouts[layer][side][index].highlight = e.target.checked;
         updateKey(layer, side, index);
         getKeyElement(layer, side, index).classList.add('selected');
+        saveToLocalStorage();
     });
 
     // Combo fields
@@ -564,6 +777,7 @@ function initSidebarListeners() {
         layouts[layer][side][index].tap = e.target.value || undefined;
         updateKey(layer, side, index);
         getKeyElement(layer, side, index).classList.add('selected');
+        saveToLocalStorage();
     });
 
     document.getElementById('field-modifier-key').addEventListener('input', (e) => {
@@ -573,6 +787,7 @@ function initSidebarListeners() {
         layouts[layer][side][index].modifierKey = e.target.value || undefined;
         updateKey(layer, side, index);
         getKeyElement(layer, side, index).classList.add('selected');
+        saveToLocalStorage();
     });
 
     // Chord fields need to create/update chord object
@@ -591,6 +806,7 @@ function initSidebarListeners() {
         }
         updateKey(layer, side, index);
         getKeyElement(layer, side, index).classList.add('selected');
+        saveToLocalStorage();
     });
 
     document.getElementById('field-chord-output').addEventListener('input', (e) => {
@@ -607,6 +823,7 @@ function initSidebarListeners() {
         }
         updateKey(layer, side, index);
         getKeyElement(layer, side, index).classList.add('selected');
+        saveToLocalStorage();
     });
 
     // Clear Key button
@@ -617,6 +834,22 @@ function initSidebarListeners() {
 
     // Undo button
     document.getElementById('btn-undo').addEventListener('click', undo);
+
+    // File operations
+    document.getElementById('btn-export').addEventListener('click', exportLayouts);
+
+    document.getElementById('btn-import').addEventListener('click', () => {
+        document.getElementById('file-import').click();
+    });
+
+    document.getElementById('file-import').addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            importLayouts(e.target.files[0]);
+            e.target.value = ''; // Reset for re-import of same file
+        }
+    });
+
+    document.getElementById('btn-reset-all').addEventListener('click', resetToDefault);
 }
 
 /**
@@ -716,5 +949,10 @@ window.keyboardEditor = {
     deselectKey,
     clearSelectedKey,
     resetSelectedKey,
-    undo
+    undo,
+    exportLayouts,
+    importLayouts,
+    resetToDefault,
+    saveToLocalStorage,
+    loadFromLocalStorage
 };

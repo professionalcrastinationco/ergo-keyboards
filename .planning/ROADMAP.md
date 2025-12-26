@@ -17,8 +17,8 @@ None
 - [x] **Phase 1: Data Layer Refactor** - Extract layouts to JSON, enable dynamic rendering
 - [x] **Phase 2: Selection & Sidebar UI** - Build sidebar panel, implement key selection
 - [x] **Phase 3: Real-time Editing** - Live key editing with instant visual updates
-- [ ] **Phase 4: Combo Visualization** - Modifier badges, layer-tap, chord notation
-- [ ] **Phase 5: Persistence & Export** - LocalStorage auto-save, JSON import/export
+- [x] **Phase 4: Combo Visualization** - Modifier badges, layer-tap, chord notation
+- [x] **Phase 5: Persistence & Export** - LocalStorage auto-save, JSON import/export
 
 ## Phase Details
 
@@ -94,4 +94,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Selection & Sidebar UI | 1/1 | Complete | 2025-12-26 |
 | 3. Real-time Editing | 1/1 | Complete | 2025-12-26 |
 | 4. Combo Visualization | 1/1 | Complete | 2025-12-26 |
-| 5. Persistence & Export | 0/1 | In Progress | - |
+| 5. Persistence & Export | 1/1 | Complete | 2025-12-26 |
