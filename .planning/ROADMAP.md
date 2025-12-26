@@ -37,10 +37,10 @@ See [v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md) for full details.
 **Goal**: Refactor combo storage from per-key to layer-level with position-based references for adjacency detection
 **Depends on**: v1.0 complete
 **Research**: Unlikely (internal refactor)
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 06-01: TBD (run /gsd:plan-phase 6 to break down)
+- [ ] 06-01: Add color palette, adjacency detection, layer-level combos array
 
 #### Phase 7: Combo Rendering
 
@@ -71,6 +71,6 @@ Plans:
 | 3. Real-time Editing | v1.0 | 1/1 | Complete | 2025-12-26 |
 | 4. Combo Visualization | v1.0 | 1/1 | Complete | 2025-12-26 |
 | 5. Persistence & Export | v1.0 | 1/1 | Complete | 2025-12-26 |
-| 6. Combo Data Model | v1.1 | 0/? | Not started | - |
+| 6. Combo Data Model | v1.1 | 0/1 | Not started | - |
 | 7. Combo Rendering | v1.1 | 0/? | Not started | - |
 | 8. Combo Editing | v1.1 | 0/? | Not started | - |
