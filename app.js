@@ -5,9 +5,11 @@
 
 // Application state
 let layouts = null;
+let originalLayouts = null; // Deep copy of original layouts for reset functionality
 let currentLayer = 'base';
 let currentZoom = 100;
 let selectedKey = null; // {layer, side, index}
+let lastKeyState = null; // Single-level undo state
 const MIN_ZOOM = 50;
 const MAX_ZOOM = 200;
 const ZOOM_STEP = 10;
@@ -30,6 +32,8 @@ async function loadLayouts() {
         // Remove schema metadata, keep only layer data
         const { _schema, ...layerData } = data;
         layouts = layerData;
+        // Store deep copy of original layouts for reset functionality
+        originalLayouts = JSON.parse(JSON.stringify(layouts));
     } catch (error) {
         console.error('Error loading layouts:', error);
         // Show error to user
@@ -301,6 +305,84 @@ function updateSidebar() {
 }
 
 /**
+ * Save current key state for undo (single-level)
+ */
+function saveUndoState() {
+    if (!selectedKey) return;
+    const { layer, side, index } = selectedKey;
+    lastKeyState = {
+        layer, side, index,
+        data: JSON.parse(JSON.stringify(layouts[layer][side][index]))
+    };
+    updateUndoButton();
+}
+
+/**
+ * Undo the last change
+ */
+function undo() {
+    if (!lastKeyState) return;
+    const { layer, side, index, data } = lastKeyState;
+    layouts[layer][side][index] = data;
+    updateKey(layer, side, index);
+
+    // If this key is still selected, update sidebar
+    if (selectedKey && selectedKey.layer === layer &&
+        selectedKey.side === side && selectedKey.index === index) {
+        getKeyElement(layer, side, index).classList.add('selected');
+        updateSidebar();
+    }
+
+    lastKeyState = null;
+    updateUndoButton();
+}
+
+/**
+ * Update undo button disabled state
+ */
+function updateUndoButton() {
+    const btn = document.getElementById('btn-undo');
+    if (btn) {
+        btn.disabled = !lastKeyState;
+    }
+}
+
+/**
+ * Clear the selected key (set all properties to empty/false)
+ */
+function clearSelectedKey() {
+    if (!selectedKey) return;
+    saveUndoState();
+    const { layer, side, index } = selectedKey;
+    layouts[layer][side][index] = {
+        primary: '',
+        secondary: '',
+        hold: '',
+        accent: false,
+        highlight: false
+    };
+    updateKey(layer, side, index);
+    getKeyElement(layer, side, index).classList.add('selected');
+    updateSidebar();
+}
+
+/**
+ * Reset the selected key to its original loaded values
+ */
+function resetSelectedKey() {
+    if (!selectedKey) return;
+    if (!originalLayouts) return;
+    saveUndoState();
+    const { layer, side, index } = selectedKey;
+    layouts[layer][side][index] = JSON.parse(
+        JSON.stringify(originalLayouts[layer][side][index])
+    );
+    updateKey(layer, side, index);
+    getKeyElement(layer, side, index).classList.add('selected');
+    updateSidebar();
+}
+
+/**
  * Render a complete keyboard layout
  * @param {string} layer - Layer name to render
  */
@@ -375,6 +457,68 @@ function renderLayout(layer) {
 }
 
 /**
+ * Initialize sidebar field event listeners for live editing
+ */
+function initSidebarListeners() {
+    // Text fields - update on input for instant feedback
+    document.getElementById('field-primary').addEventListener('input', (e) => {
+        if (!selectedKey) return;
+        saveUndoState();
+        const { layer, side, index } = selectedKey;
+        layouts[layer][side][index].primary = e.target.value;
+        updateKey(layer, side, index);
+        // Re-add selected class (updateKey resets classes)
+        getKeyElement(layer, side, index).classList.add('selected');
+    });
+
+    document.getElementById('field-secondary').addEventListener('input', (e) => {
+        if (!selectedKey) return;
+        saveUndoState();
+        const { layer, side, index } = selectedKey;
+        layouts[layer][side][index].secondary = e.target.value;
+        updateKey(layer, side, index);
+        getKeyElement(layer, side, index).classList.add('selected');
+    });
+
+    document.getElementById('field-hold').addEventListener('input', (e) => {
+        if (!selectedKey) return;
+        saveUndoState();
+        const { layer, side, index } = selectedKey;
+        layouts[layer][side][index].hold = e.target.value;
+        updateKey(layer, side, index);
+        getKeyElement(layer, side, index).classList.add('selected');
+    });
+
+    // Checkboxes - update on change
+    document.getElementById('field-accent').addEventListener('change', (e) => {
+        if (!selectedKey) return;
+        saveUndoState();
+        const { layer, side, index } = selectedKey;
+        layouts[layer][side][index].accent = e.target.checked;
+        updateKey(layer, side, index);
+        getKeyElement(layer, side, index).classList.add('selected');
+    });
+
+    document.getElementById('field-highlight').addEventListener('change', (e) => {
+        if (!selectedKey) return;
+        saveUndoState();
+        const { layer, side, index } = selectedKey;
+        layouts[layer][side][index].highlight = e.target.checked;
+        updateKey(layer, side, index);
+        getKeyElement(layer, side, index).classList.add('selected');
+    });
+
+    // Clear Key button
+    document.getElementById('btn-clear-key').addEventListener('click', clearSelectedKey);
+
+    // Reset Key button
+    document.getElementById('btn-reset-key').addEventListener('click', resetSelectedKey);
+
+    // Undo button
+    document.getElementById('btn-undo').addEventListener('click', undo);
+}
+
+/**
  * Initialize event listeners
  */
 function initEventListeners() {
@@ -444,8 +588,10 @@ async function init() {
     try {
         await loadLayouts();
         initEventListeners();
+        initSidebarListeners();
         renderLayout('base');
         setZoom(100);
+        updateUndoButton(); // Initialize undo button state
     } catch (error) {
         console.error('Failed to initialize app:', error);
     }
@@ -457,12 +603,17 @@ document.addEventListener('DOMContentLoaded', init);
 // Export functions for console debugging and future editing features
 window.keyboardEditor = {
     layouts: () => layouts,
+    originalLayouts: () => originalLayouts,
     currentLayer: () => currentLayer,
     selectedKey: () => selectedKey,
+    lastKeyState: () => lastKeyState,
     updateKey,
     getKeyElement,
     renderLayout,
     setZoom,
     selectKey,
-    deselectKey
+    deselectKey,
+    clearSelectedKey,
+    resetSelectedKey,
+    undo
 };

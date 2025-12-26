@@ -473,6 +473,57 @@ footer {
     accent-color: #4a9eff;
 }
 
+/* Sidebar Action Buttons */
+.sidebar-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #3d3d5c;
+}
+
+.sidebar-btn {
+    padding: 10px 16px;
+    background: #4a4a7a;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.sidebar-btn:hover {
+    background: #5a5a9a;
+}
+
+.sidebar-btn:active {
+    transform: scale(0.98);
+}
+
+.sidebar-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.sidebar-btn:disabled:hover {
+    background: #4a4a7a;
+}
+
+.sidebar-btn.secondary {
+    background: #3d4559;
+}
+
+.sidebar-btn.secondary:hover {
+    background: #4d5569;
+}
+
+.sidebar-btn.secondary:disabled:hover {
+    background: #3d4559;
+}
+
 @media (max-width: 1100px) {
     .sidebar {
         position: relative;
