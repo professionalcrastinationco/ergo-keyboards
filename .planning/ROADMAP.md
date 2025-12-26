@@ -26,7 +26,7 @@ None
 **Goal**: Extract hardcoded layout data into JSON format, split files for maintainability, refactor rendering to support dynamic updates
 **Depends on**: Nothing (first phase)
 **Research**: Unlikely (internal refactoring, established patterns)
-**Plans**: TBD
+**Plans**: 1 (01-01-PLAN.md)
 
 Key deliverables:
 - Separate `layouts.json` with keyboard data
@@ -90,7 +90,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Data Layer Refactor | 0/TBD | Not started | - |
+| 1. Data Layer Refactor | 0/1 | In progress | - |
 | 2. Selection & Sidebar UI | 0/TBD | Not started | - |
 | 3. Real-time Editing | 0/TBD | Not started | - |
 | 4. Combo Visualization | 0/TBD | Not started | - |
