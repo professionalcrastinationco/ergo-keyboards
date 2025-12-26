@@ -17,6 +17,242 @@ const ZOOM_STEP = 10;
 // LocalStorage persistence
 const STORAGE_KEY = 'keyboardEditor_layouts';
 
+// Default layouts (embedded for offline use)
+const DEFAULT_LAYOUTS = {
+    base: {
+        left: [
+            { primary: "TAB" },
+            { primary: "Q" },
+            { primary: "W", hold: "@" },
+            { primary: "E", hold: "#" },
+            { primary: "R", hold: "$" },
+            { primary: "T", hold: "%" },
+            { primary: "LSHFT" },
+            { primary: "A" },
+            { primary: "S", hold: "\\" },
+            { primary: "D", secondary: "ESCAPE", hold: "=" },
+            { primary: "F", secondary: "PASTE", hold: "=" },
+            { primary: "G", secondary: "COPY" },
+            { primary: "LCTRL" },
+            { primary: "Z" },
+            { primary: "X" },
+            { primary: "V" },
+            { primary: "B" },
+            { primary: "", transparent: true },
+            { primary: "", transparent: true },
+            { primary: "", transparent: true },
+            { primary: "", transparent: true },
+            { primary: "LGUI" },
+            { primary: "NavNum", secondary: "" },
+            { primary: "SPACE" }
+        ],
+        right: [
+            { primary: "Y" },
+            { primary: "U", hold: "+" },
+            { primary: "I", hold: "*" },
+            { primary: "O", hold: "{" },
+            { primary: "P" },
+            { primary: "BACKSPACE" },
+            { primary: "H" },
+            { primary: "J", hold: "{", secondary: "KP" },
+            { primary: "K", hold: "/" },
+            { primary: "L", hold: "}" },
+            { primary: ";" },
+            { primary: "'" },
+            { primary: "N" },
+            { primary: "M", secondary: "MINUS", hold: "[" },
+            { primary: ",", hold: "]" },
+            { primary: "." },
+            { primary: "/" },
+            { primary: "RSHFT" },
+            { primary: "", transparent: true },
+            { primary: "RET" },
+            { primary: "TAB", secondary: "Symbols" },
+            { primary: "RIGHT", secondary: "ALT" },
+            { primary: "", transparent: true },
+            { primary: "", transparent: true }
+        ],
+        info: {
+            title: "Base Layer",
+            description: "Primary typing layer with QWERTY layout. Hold keys show modifier and layer access functions."
+        }
+    },
+    navnum: {
+        left: [
+            { primary: "", hold: "\\" },
+            { primary: "1" },
+            { primary: "2", hold: "@" },
+            { primary: "3", hold: "#" },
+            { primary: "4", hold: "$" },
+            { primary: "5", hold: "%" },
+            { primary: "&caps_wo", secondary: "" },
+            { primary: "", hold: "\\" },
+            { primary: "UP", secondary: "ARROW", hold: "=" },
+            { primary: "", secondary: "browser", hold: "=" },
+            { primary: "PAGE", secondary: "UP" },
+            { primary: "" },
+            { primary: "" },
+            { primary: "LEFT", secondary: "PASTE", hold: "=" },
+            { primary: "", secondary: "ESCAPE", hold: "=" },
+            { primary: "RIGHT", secondary: "COPY", hold: "=" },
+            { primary: "PAGE", secondary: "DOWN" },
+            { primary: "", transparent: true },
+            { primary: "", transparent: true },
+            { primary: "", transparent: true },
+            { primary: "", transparent: true },
+            { primary: "LGUI" },
+            { primary: "", accent: true },
+            { primary: "SPACE" }
+        ],
+        right: [
+            { primary: "6" },
+            { primary: "7", hold: "+" },
+            { primary: "8", hold: "*" },
+            { primary: "9", hold: "{" },
+            { primary: "0" },
+            { primary: "" },
+            { primary: "0" },
+            { primary: "4", hold: "{", secondary: "" },
+            { primary: "5", hold: "/" },
+            { primary: "6", hold: "}" },
+            { primary: "" },
+            { primary: "" },
+            { primary: "", secondary: "KP MINUS", hold: "[" },
+            { primary: "1", hold: "[" },
+            { primary: "2", hold: "]" },
+            { primary: "3", hold: "]" },
+            { primary: "" },
+            { primary: "" },
+            { primary: "", transparent: true },
+            { primary: "RET" },
+            { primary: "" },
+            { primary: "" },
+            { primary: "", transparent: true },
+            { primary: "", transparent: true }
+        ],
+        info: {
+            title: "NavNum Layer",
+            description: "Navigation and number pad layer. Arrow keys on the left, numpad on the right."
+        }
+    },
+    symbols: {
+        left: [
+            { primary: "" },
+            { primary: "!" },
+            { primary: "@", hold: "@" },
+            { primary: "#", hold: "#" },
+            { primary: "$", hold: "$" },
+            { primary: "%", hold: "%" },
+            { primary: "" },
+            { primary: "" },
+            { primary: "UP", secondary: "ARROW", hold: "=" },
+            { primary: "", secondary: "ESCAPE", hold: "=" },
+            { primary: "", secondary: "PASTE", hold: "=" },
+            { primary: "~" },
+            { primary: "" },
+            { primary: "LEFT", secondary: "ARROW", hold: "\\" },
+            { primary: "", hold: "=" },
+            { primary: "RIGHT", secondary: "ARROW", hold: "=" },
+            { primary: "-" },
+            { primary: "", transparent: true },
+            { primary: "", transparent: true },
+            { primary: "", transparent: true },
+            { primary: "", transparent: true },
+            { primary: "LGUI" },
+            { primary: "" },
+            { primary: "SPACE" }
+        ],
+        right: [
+            { primary: "^" },
+            { primary: "&", hold: "+" },
+            { primary: "*", hold: "*" },
+            { primary: "(", hold: "{" },
+            { primary: ")" },
+            { primary: "" },
+            { primary: "-" },
+            { primary: "{", hold: "[" },
+            { primary: "}", hold: "/" },
+            { primary: "]", hold: "}" },
+            { primary: "" },
+            { primary: "\\" },
+            { primary: "+", secondary: "KP MINUS", hold: "[" },
+            { primary: "{", hold: "]" },
+            { primary: "}", hold: "]" },
+            { primary: "}" },
+            { primary: "|" },
+            { primary: "" },
+            { primary: "", transparent: true },
+            { primary: "RET" },
+            { primary: "", accent: true },
+            { primary: "" },
+            { primary: "", transparent: true },
+            { primary: "", transparent: true }
+        ],
+        info: {
+            title: "Symbols Layer",
+            description: "Symbol layer for programming and special characters. Quick access to brackets, operators, and punctuation."
+        }
+    },
+    system: {
+        left: [
+            { primary: "" },
+            { primary: "F1" },
+            { primary: "F2", hold: "@" },
+            { primary: "F3", hold: "#" },
+            { primary: "F4", hold: "$" },
+            { primary: "F5", hold: "%" },
+            { primary: "" },
+            { primary: "F12" },
+            { primary: "F11", hold: "\\" },
+            { primary: "", secondary: "ESCAPE", hold: "=" },
+            { primary: "", secondary: "PASTE", hold: "=" },
+            { primary: "", highlight: true },
+            { primary: "" },
+            { primary: "BT", secondary: "0" },
+            { primary: "BT", secondary: "1" },
+            { primary: "BT", secondary: "2", hold: "=" },
+            { primary: "BT CLR" },
+            { primary: "BT CLR", secondary: "ALL", highlight: true },
+            { primary: "", transparent: true },
+            { primary: "", transparent: true },
+            { primary: "", transparent: true },
+            { primary: "" },
+            { primary: "", accent: true },
+            { primary: "", accent: true }
+        ],
+        right: [
+            { primary: "F6" },
+            { primary: "F7", hold: "+" },
+            { primary: "F8", hold: "*" },
+            { primary: "F9", hold: "{" },
+            { primary: "F10" },
+            { primary: "" },
+            { primary: "" },
+            { primary: "", hold: "{" },
+            { primary: "", hold: "/" },
+            { primary: "", hold: "}" },
+            { primary: "" },
+            { primary: "" },
+            { primary: "", secondary: "KP MINUS", hold: "-" },
+            { primary: "", hold: "[" },
+            { primary: "", hold: "]" },
+            { primary: "" },
+            { primary: "&bootload", secondary: "" },
+            { primary: "" },
+            { primary: "", transparent: true },
+            { primary: "" },
+            { primary: "", accent: true },
+            { primary: "", accent: true },
+            { primary: "", transparent: true },
+            { primary: "", transparent: true }
+        ],
+        info: {
+            title: "System Layer",
+            description: "System functions including F-keys, Bluetooth profiles (BT 0-2), and bootloader access. ZMK Studio Unlock available."
+        }
+    }
+};
+
 // Zoom state
 let baseHeight = null;
 let baseWidth = null;
@@ -62,52 +298,23 @@ function updateSaveIndicator(hasSaved) {
 }
 
 /**
- * Load layouts from JSON file or LocalStorage
- * @returns {Promise<void>}
+ * Load layouts from LocalStorage or use embedded defaults
  */
-async function loadLayouts() {
+function loadLayouts() {
+    // Store original defaults for reset functionality
+    originalLayouts = JSON.parse(JSON.stringify(DEFAULT_LAYOUTS));
+
     // Try LocalStorage first
     const savedLayouts = loadFromLocalStorage();
     if (savedLayouts) {
         layouts = savedLayouts;
-        // Still fetch original for reset functionality
-        try {
-            const response = await fetch('layouts.json');
-            const data = await response.json();
-            const { _schema, ...layerData } = data;
-            originalLayouts = layerData;
-        } catch (error) {
-            originalLayouts = JSON.parse(JSON.stringify(layouts));
-        }
         updateSaveIndicator(true);
         return;
     }
 
-    // Fall back to fetch from file
-    try {
-        const response = await fetch('layouts.json');
-        if (!response.ok) {
-            throw new Error(`Failed to load layouts: ${response.status}`);
-        }
-        const data = await response.json();
-        // Remove schema metadata, keep only layer data
-        const { _schema, ...layerData } = data;
-        layouts = layerData;
-        // Store deep copy of original layouts for reset functionality
-        originalLayouts = JSON.parse(JSON.stringify(layouts));
-        updateSaveIndicator(false);
-    } catch (error) {
-        console.error('Error loading layouts:', error);
-        // Show error to user
-        document.body.innerHTML = `
-            <div style="color: #ff6b6b; text-align: center; padding: 50px;">
-                <h2>Failed to load keyboard layouts</h2>
-                <p>${error.message}</p>
-                <p>Make sure layouts.json exists and is valid JSON.</p>
-            </div>
-        `;
-        throw error;
-    }
+    // Use embedded defaults
+    layouts = JSON.parse(JSON.stringify(DEFAULT_LAYOUTS));
+    updateSaveIndicator(false);
 }
 
 /**
@@ -918,17 +1125,13 @@ function initEventListeners() {
 /**
  * Initialize the application
  */
-async function init() {
-    try {
-        await loadLayouts();
-        initEventListeners();
-        initSidebarListeners();
-        renderLayout('base');
-        setZoom(100);
-        updateUndoButton(); // Initialize undo button state
-    } catch (error) {
-        console.error('Failed to initialize app:', error);
-    }
+function init() {
+    loadLayouts();
+    initEventListeners();
+    initSidebarListeners();
+    renderLayout('base');
+    setZoom(100);
+    updateUndoButton(); // Initialize undo button state
 }
 
 // Start app when DOM is ready
