@@ -57,10 +57,10 @@ Plans:
 **Goal**: Add Combo mode (click two keys, enter output), sidebar combo list, delete functionality
 **Depends on**: Phase 7
 **Research**: Unlikely (editing patterns from v1.0)
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 08-01: TBD
+- [x] 08-01: Add combo mode UI, creation flow, sidebar list, delete functionality
 
 ## Progress
 
@@ -73,4 +73,4 @@ Plans:
 | 5. Persistence & Export | v1.0 | 1/1 | Complete | 2025-12-26 |
 | 6. Combo Data Model | v1.1 | 1/1 | Complete | 2025-12-26 |
 | 7. Combo Rendering | v1.1 | 1/1 | Complete | 2025-12-26 |
-| 8. Combo Editing | v1.1 | 0/? | Not started | - |
+| 8. Combo Editing | v1.1 | 1/1 | Complete | 2025-12-26 |

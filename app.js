@@ -10,6 +10,7 @@ let currentLayer = 'base';
 let currentZoom = 100;
 let selectedKey = null; // {layer, side, index}
 let lastKeyState = null; // Single-level undo state
+let comboMode = null; // null | {step: 'first'|'second', firstKey: {side, index}}
 const MIN_ZOOM = 50;
 const MAX_ZOOM = 200;
 const ZOOM_STEP = 10;
@@ -498,8 +499,16 @@ function createKey(keyData, index, layer, side) {
     });
 
     // Add click handler for selection
-    key.addEventListener('click', () => {
+    key.addEventListener('click', (e) => {
         if (keyData.transparent) return; // Can't select transparent keys
+
+        // Check combo mode first
+        if (comboMode) {
+            e.stopPropagation();
+            handleComboModeClick(side, index);
+            return;
+        }
+
         selectKey(layer, side, index);
     });
 
@@ -1018,6 +1027,7 @@ function renderLayout(layer) {
     requestAnimationFrame(() => {
         setZoom(currentZoom);
         renderCombos(layer);
+        updateComboList();
     });
 }
 
@@ -1127,6 +1137,150 @@ function renderNonAdjacentComboBadges(side, index, badges, layer) {
     });
 
     keyEl.appendChild(container);
+}
+
+/**
+ * Enter combo creation mode
+ */
+function enterComboMode() {
+    comboMode = { step: 'first', firstKey: null };
+    document.getElementById('keyboard-container').classList.add('combo-mode');
+    document.getElementById('combo-mode-status').style.display = 'block';
+    document.getElementById('combo-mode-text').textContent = 'Click first key...';
+    document.getElementById('btn-add-combo').style.display = 'none';
+    deselectKey(); // Clear any key selection
+}
+
+/**
+ * Exit combo creation mode
+ */
+function exitComboMode() {
+    comboMode = null;
+    document.getElementById('keyboard-container').classList.remove('combo-mode');
+    document.getElementById('combo-mode-status').style.display = 'none';
+    document.getElementById('btn-add-combo').style.display = 'block';
+    // Clear combo-selected class from all keys
+    document.querySelectorAll('.key.combo-selected').forEach(el => {
+        el.classList.remove('combo-selected');
+    });
+}
+
+/**
+ * Handle key click during combo mode
+ * @param {string} side - 'left' or 'right'
+ * @param {number} index - Key index
+ */
+function handleComboModeClick(side, index) {
+    if (!comboMode) return;
+
+    const keyEl = getKeyElement(currentLayer, side, index);
+    if (!keyEl) return;
+
+    if (comboMode.step === 'first') {
+        // First key selected
+        comboMode.firstKey = { side, index };
+        comboMode.step = 'second';
+        keyEl.classList.add('combo-selected');
+        document.getElementById('combo-mode-text').textContent = 'Click second key...';
+    } else if (comboMode.step === 'second') {
+        // Second key selected - prompt for output
+        const secondKey = { side, index };
+
+        // Don't allow same key
+        if (comboMode.firstKey.side === side && comboMode.firstKey.index === index) {
+            return;
+        }
+
+        keyEl.classList.add('combo-selected');
+
+        // Prompt for output
+        const output = prompt('Enter combo output:');
+        if (output && output.trim()) {
+            addCombo(comboMode.firstKey, secondKey, output.trim());
+        }
+        exitComboMode();
+    }
+}
+
+/**
+ * Add a new combo to the current layer
+ * @param {Object} key1 - {side, index}
+ * @param {Object} key2 - {side, index}
+ * @param {string} output - Combo output
+ */
+function addCombo(key1, key2, output) {
+    if (!layouts[currentLayer].combos) {
+        layouts[currentLayer].combos = [];
+    }
+    layouts[currentLayer].combos.push({
+        keys: [key1, key2],
+        output: output
+    });
+    saveToLocalStorage();
+    renderCombos(currentLayer);
+    updateComboList();
+}
+
+/**
+ * Delete a combo from the current layer
+ * @param {number} comboIndex - Index in combos array
+ */
+function deleteCombo(comboIndex) {
+    layouts[currentLayer].combos.splice(comboIndex, 1);
+    saveToLocalStorage();
+    renderCombos(currentLayer);
+    updateComboList();
+}
+
+/**
+ * Update the combo list display in sidebar
+ */
+function updateComboList() {
+    const listEl = document.getElementById('combo-list');
+    const combos = layouts[currentLayer].combos || [];
+
+    if (combos.length === 0) {
+        listEl.innerHTML = '<div class="combo-list-empty">No combos defined</div>';
+        return;
+    }
+
+    listEl.innerHTML = combos.map((combo, idx) => {
+        const key1 = combo.keys[0];
+        const key2 = combo.keys[1];
+        const key1Label = getKeyLabel(key1.side, key1.index);
+        const key2Label = getKeyLabel(key2.side, key2.index);
+        return `
+            <div class="combo-list-item">
+                <span class="combo-keys">${key1Label} + ${key2Label}</span>
+                <span class="combo-output">${combo.output}</span>
+                <button class="combo-delete" data-index="${idx}" title="Delete combo">×</button>
+            </div>
+        `;
+    }).join('');
+
+    // Add delete handlers
+    listEl.querySelectorAll('.combo-delete').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const idx = parseInt(e.target.dataset.index);
+            if (confirm('Delete this combo?')) {
+                deleteCombo(idx);
+            }
+        });
+    });
+}
+
+/**
+ * Get a display label for a key position
+ * @param {string} side - 'left' or 'right'
+ * @param {number} index - Key index
+ * @returns {string} Display label
+ */
+function getKeyLabel(side, index) {
+    const keyData = layouts[currentLayer][side][index];
+    if (keyData && keyData.primary) {
+        return keyData.primary;
+    }
+    return `${side[0].toUpperCase()}${index}`;
 }
 
 /**
@@ -1267,6 +1421,10 @@ function initSidebarListeners() {
     });
 
     document.getElementById('btn-reset-all').addEventListener('click', resetToDefault);
+
+    // Combo mode buttons
+    document.getElementById('btn-add-combo').addEventListener('click', enterComboMode);
+    document.getElementById('btn-cancel-combo').addEventListener('click', exitComboMode);
 }
 
 /**
@@ -1285,6 +1443,12 @@ function initEventListeners() {
 
     // Keyboard shortcuts for layer switching and zoom
     document.addEventListener('keydown', (e) => {
+        // ESC to exit combo mode
+        if (e.key === 'Escape' && comboMode) {
+            exitComboMode();
+            return;
+        }
+
         // Layer switching: 1-4
         if (e.key >= '1' && e.key <= '4' && !e.ctrlKey && !e.altKey) {
             const layers = ['base', 'navnum', 'symbols', 'system'];
@@ -1330,6 +1494,13 @@ function initEventListeners() {
             }
         }
     }, { passive: false });
+
+    // Click outside keyboard exits combo mode
+    document.addEventListener('click', (e) => {
+        if (comboMode && !e.target.closest('#keyboard-container') && !e.target.closest('#combo-mode-status')) {
+            exitComboMode();
+        }
+    });
 }
 
 /**
@@ -1373,5 +1544,11 @@ window.keyboardEditor = {
     getKeyPosition,
     areKeysAdjacent,
     // Combo rendering (Phase 7)
-    renderCombos
+    renderCombos,
+    // Combo editing (Phase 8)
+    enterComboMode,
+    exitComboMode,
+    addCombo,
+    deleteCombo,
+    updateComboList
 };

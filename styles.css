@@ -631,6 +631,84 @@ footer {
     gap: 2px;
 }
 
+/* Combo mode overlay effect */
+.combo-mode .key:not(.combo-selected) {
+    opacity: 0.4;
+    pointer-events: auto;
+}
+
+.combo-mode .key.combo-selected {
+    box-shadow: 0 0 0 3px #4aff80;
+    opacity: 1;
+}
+
+.combo-mode .key:hover:not(.combo-selected) {
+    opacity: 0.7;
+}
+
+/* Combo mode status */
+.combo-mode-status {
+    background: rgba(74, 158, 255, 0.1);
+    border: 1px solid #4a9eff;
+    border-radius: 6px;
+    padding: 12px;
+    margin: 12px 0;
+    text-align: center;
+}
+
+.combo-mode-status span {
+    display: block;
+    color: #4a9eff;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+/* Combo list */
+.combo-list {
+    margin-top: 12px;
+}
+
+.combo-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    background: #2d2d44;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    font-size: 12px;
+}
+
+.combo-list-item .combo-keys {
+    color: #aaa;
+}
+
+.combo-list-item .combo-output {
+    color: #4aff80;
+    font-weight: 600;
+}
+
+.combo-list-item .combo-delete {
+    background: transparent;
+    border: none;
+    color: #ff6b6b;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.combo-list-item .combo-delete:hover {
+    background: rgba(255, 107, 107, 0.2);
+}
+
+.combo-list-empty {
+    color: #666;
+    font-size: 12px;
+    text-align: center;
+    padding: 12px;
+}
+
 /* Section styling for sidebar */
 .field-section {
     margin-top: 20px;
