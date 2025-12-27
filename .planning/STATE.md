@@ -20,10 +20,10 @@
 ## Current Position
 
 Milestone: v1.1 Enhanced Combo Visualization
-Phase: 8 of 8 (Combo Editing)
+Phase: 8.2 of 8.2 (Fix Thumb Cluster Rotation)
 Plan: 1/1 complete
-Status: MILESTONE COMPLETE
-Last activity: 2025-12-26 - v1.1 complete
+Status: COMPLETE
+Last activity: 2025-12-27 - Phase 8.2 completed
 
 Progress: ██████████ 100%
 
@@ -79,6 +79,15 @@ Progress: ██████████ 100%
 | v1.1 | Adjacent badge: centered at midpoint | Clean visual placement between keys |
 | v1.1 | Non-adjacent badge: bottom center | Consistent position, doesn't obscure labels |
 | v1.1 | Multi-combo: badges side by side | Allow keys in multiple combos, show all |
+| v1.1 | Thumb rotation: graduated angles | Inner keys ±15°, middle ±10°, outer ±5° - fan outward from center gap |
+
+### Roadmap Evolution
+
+- Phase 8.1 inserted after Phase 8: Combo Badge Polish (URGENT)
+  - Bugs discovered during testing after Phase 8 completion
+  - Fixed: badge centering, text contrast, zoom positioning, overflow
+- Phase 8.2 inserted after Phase 8.1: Fix Thumb Cluster Rotation (URGENT)
+  - Thumb cluster key rotation angles don't match reference keymap-drawer image
 
 ### Deferred Issues
 
@@ -90,13 +99,13 @@ None.
 
 ## Project Alignment
 
-Last checked: v1.1 milestone creation
-Status: In Progress
-Assessment: Starting v1.1 Enhanced Combo Visualization
+Last checked: Phase 8.2 completion
+Status: Complete
+Assessment: v1.1 milestone COMPLETE - all phases done
 Drift notes: None
 
 ## Session Continuity
 
-Last session: 2025-12-26
-Stopped at: Milestone v1.1 initialization
+Last session: 2025-12-27
+Stopped at: Phase 8.2 complete - v1.1 milestone finished
 Resume file: None
