@@ -1009,14 +1009,14 @@ function renderLayout(layer) {
         leftHalf.appendChild(createKey(keyData, index, layer, 'left'));
     });
 
-    // Left thumb cluster - keys fan outward from center
-    // Indices: 18-20 transparent, 21=LGUI (outer), 22=NavNum (middle), 23=SPACE (inner)
+    // Left thumb cluster rotations per user spec:
+    // LGUI=0deg, NavNum=30deg clockwise, Space=60deg clockwise
     const leftThumb = document.createElement('div');
     leftThumb.className = 'thumb-cluster';
     const leftRotations = {
-        3: 'rotated-left-light',   // index 21 (LGUI) - outer, minimal rotation
-        4: 'rotated-left-medium',  // index 22 (NavNum) - middle
-        5: 'rotated-left-heavy'    // index 23 (SPACE) - inner, most rotation
+        3: 'rotate-0',    // index 21 (LGUI) - 0 degrees
+        4: 'rotate-30',   // index 22 (NavNum) - 30 degrees clockwise
+        5: 'rotate-60'    // index 23 (SPACE) - 60 degrees clockwise
     };
     layout.left.slice(18).forEach((keyData, index) => {
         const actualIndex = index + 18;
@@ -1036,14 +1036,14 @@ function renderLayout(layer) {
         rightHalf.appendChild(createKey(keyData, index, layer, 'right'));
     });
 
-    // Right thumb cluster - keys fan outward from center
-    // Indices: 18 transparent, 19=RET (inner), 20=TAB (middle), 21=ALT (outer), 22-23 transparent
+    // Right thumb cluster rotations per user spec:
+    // RET=0deg, Tab=30deg counter-clockwise, Alt=60deg counter-clockwise
     const rightThumb = document.createElement('div');
     rightThumb.className = 'thumb-cluster right';
     const rightRotations = {
-        1: 'rotated-right-heavy',  // index 19 (RET) - inner, most rotation
-        2: 'rotated-right-medium', // index 20 (TAB) - middle
-        3: 'rotated-right-light'   // index 21 (ALT) - outer, minimal rotation
+        1: 'rotate-0',      // index 19 (RET) - 0 degrees
+        2: 'rotate-neg30',  // index 20 (TAB) - 30 degrees counter-clockwise
+        3: 'rotate-neg60'   // index 21 (ALT) - 60 degrees counter-clockwise
     };
     layout.right.slice(18).forEach((keyData, index) => {
         const actualIndex = index + 18;

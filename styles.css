@@ -212,29 +212,27 @@ h1 {
     transform-origin: center;
 }
 
-/* Graduated rotation for thumb keys - fan outward from center */
-.thumb-key.rotated-left-light {
-    transform: rotate(-5deg);
+/* Thumb key rotations - per user specification */
+/* Left: LGUI=0, NavNum=30 clockwise, Space=60 clockwise */
+.thumb-key.rotate-0 {
+    transform: rotate(0deg);
 }
 
-.thumb-key.rotated-left-medium {
-    transform: rotate(-10deg);
+.thumb-key.rotate-30 {
+    transform: rotate(30deg);
 }
 
-.thumb-key.rotated-left-heavy {
-    transform: rotate(-15deg);
+.thumb-key.rotate-60 {
+    transform: rotate(60deg);
 }
 
-.thumb-key.rotated-right-light {
-    transform: rotate(5deg);
+/* Right: RET=0, Tab=30 counter-clockwise, Alt=60 counter-clockwise */
+.thumb-key.rotate-neg30 {
+    transform: rotate(-30deg);
 }
 
-.thumb-key.rotated-right-medium {
-    transform: rotate(10deg);
-}
-
-.thumb-key.rotated-right-heavy {
-    transform: rotate(15deg);
+.thumb-key.rotate-neg60 {
+    transform: rotate(-60deg);
 }
 
 .layer-info {
