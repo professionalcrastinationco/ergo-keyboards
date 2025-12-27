@@ -86,28 +86,30 @@
                             <input type="text" id="field-chord-output" placeholder="e.g., C">
                         </div>
                     </div>
-                    <div class="field-section" id="combo-section">
-                        <h3 class="section-title">Layer Combos</h3>
-                        <button id="btn-add-combo" class="sidebar-btn primary">+ Add Combo</button>
-                        <div id="combo-mode-status" class="combo-mode-status" style="display: none;">
-                            <span id="combo-mode-text">Click first key...</span>
-                            <button id="btn-cancel-combo" class="sidebar-btn secondary">Cancel</button>
-                        </div>
-                        <div id="combo-list" class="combo-list"></div>
-                    </div>
                     <div class="sidebar-actions">
                         <button id="btn-clear-key" class="sidebar-btn">Clear Key</button>
                         <button id="btn-reset-key" class="sidebar-btn secondary">Reset Key</button>
                         <button id="btn-undo" class="sidebar-btn" disabled>Undo</button>
                     </div>
-                    <div class="field-section">
-                        <h3 class="section-title">File Operations</h3>
-                        <div class="file-actions">
-                            <button id="btn-export" class="sidebar-btn primary">Export JSON</button>
-                            <button id="btn-import" class="sidebar-btn">Import JSON</button>
-                            <input type="file" id="file-import" accept=".json" style="display: none;">
-                            <button id="btn-reset-all" class="sidebar-btn danger">Reset to Default</button>
-                        </div>
+                </div>
+                <!-- Layer Combos section - always visible -->
+                <div class="field-section" id="combo-section">
+                    <h3 class="section-title">Layer Combos</h3>
+                    <button id="btn-add-combo" class="sidebar-btn primary">+ Add Combo</button>
+                    <div id="combo-mode-status" class="combo-mode-status" style="display: none;">
+                        <span id="combo-mode-text">Click first key...</span>
+                        <button id="btn-cancel-combo" class="sidebar-btn secondary">Cancel</button>
+                    </div>
+                    <div id="combo-list" class="combo-list"></div>
+                </div>
+                <!-- File Operations - always visible -->
+                <div class="field-section">
+                    <h3 class="section-title">File Operations</h3>
+                    <div class="file-actions">
+                        <button id="btn-export" class="sidebar-btn primary">Export JSON</button>
+                        <button id="btn-import" class="sidebar-btn">Import JSON</button>
+                        <input type="file" id="file-import" accept=".json" style="display: none;">
+                        <button id="btn-reset-all" class="sidebar-btn danger">Reset to Default</button>
                     </div>
                 </div>
             </div>

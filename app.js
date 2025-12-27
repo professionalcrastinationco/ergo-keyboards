@@ -1497,7 +1497,7 @@ function initEventListeners() {
 
     // Click outside keyboard exits combo mode
     document.addEventListener('click', (e) => {
-        if (comboMode && !e.target.closest('#keyboard-container') && !e.target.closest('#combo-mode-status')) {
+        if (comboMode && !e.target.closest('#keyboard-container') && !e.target.closest('#combo-section')) {
             exitComboMode();
         }
     });
