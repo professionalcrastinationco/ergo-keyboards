@@ -42,7 +42,7 @@
       { "primary": "X" },
       { "primary": "V" },
       { "primary": "B" },
-      { "primary": "", "transparent": true },
+      { "primary": "" },
 
       { "primary": "", "transparent": true },
       { "primary": "", "transparent": true },
@@ -107,7 +107,7 @@
       { "primary": "", "secondary": "ESCAPE", "hold": "=" },
       { "primary": "RIGHT", "secondary": "COPY", "hold": "=" },
       { "primary": "PAGE", "secondary": "DOWN" },
-      { "primary": "", "transparent": true },
+      { "primary": "" },
 
       { "primary": "", "transparent": true },
       { "primary": "", "transparent": true },
@@ -172,7 +172,7 @@
       { "primary": "", "hold": "=" },
       { "primary": "RIGHT", "secondary": "ARROW", "hold": "=" },
       { "primary": "-" },
-      { "primary": "", "transparent": true },
+      { "primary": "" },
 
       { "primary": "", "transparent": true },
       { "primary": "", "transparent": true },
@@ -238,8 +238,8 @@
       { "primary": "BT", "secondary": "2", "hold": "=" },
       { "primary": "BT CLR" },
       { "primary": "BT CLR", "secondary": "ALL", "highlight": true },
+      { "primary": "" },
 
-      { "primary": "", "transparent": true },
       { "primary": "", "transparent": true },
       { "primary": "", "transparent": true },
       { "primary": "" },
