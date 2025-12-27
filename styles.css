@@ -212,11 +212,28 @@ h1 {
     transform-origin: center;
 }
 
-.thumb-key.rotated-left {
+/* Graduated rotation for thumb keys - fan outward from center */
+.thumb-key.rotated-left-light {
+    transform: rotate(-5deg);
+}
+
+.thumb-key.rotated-left-medium {
+    transform: rotate(-10deg);
+}
+
+.thumb-key.rotated-left-heavy {
     transform: rotate(-15deg);
 }
 
-.thumb-key.rotated-right {
+.thumb-key.rotated-right-light {
+    transform: rotate(5deg);
+}
+
+.thumb-key.rotated-right-medium {
+    transform: rotate(10deg);
+}
+
+.thumb-key.rotated-right-heavy {
     transform: rotate(15deg);
 }
 

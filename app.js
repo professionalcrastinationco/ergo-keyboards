@@ -1009,16 +1009,22 @@ function renderLayout(layer) {
         leftHalf.appendChild(createKey(keyData, index, layer, 'left'));
     });
 
-    // Left thumb cluster
+    // Left thumb cluster - keys fan outward from center
+    // Indices: 18-20 transparent, 21=LGUI (outer), 22=NavNum (middle), 23=SPACE (inner)
     const leftThumb = document.createElement('div');
     leftThumb.className = 'thumb-cluster';
+    const leftRotations = {
+        3: 'rotated-left-light',   // index 21 (LGUI) - outer, minimal rotation
+        4: 'rotated-left-medium',  // index 22 (NavNum) - middle
+        5: 'rotated-left-heavy'    // index 23 (SPACE) - inner, most rotation
+    };
     layout.left.slice(18).forEach((keyData, index) => {
         const actualIndex = index + 18;
         const key = createKey(keyData, actualIndex, layer, 'left');
         if (!keyData.transparent) {
             key.classList.add('thumb-key');
-            if (index >= 3) {
-                key.classList.add('rotated-left');
+            if (leftRotations[index]) {
+                key.classList.add(leftRotations[index]);
             }
         }
         leftThumb.appendChild(key);
@@ -1030,16 +1036,22 @@ function renderLayout(layer) {
         rightHalf.appendChild(createKey(keyData, index, layer, 'right'));
     });
 
-    // Right thumb cluster
+    // Right thumb cluster - keys fan outward from center
+    // Indices: 18 transparent, 19=RET (inner), 20=TAB (middle), 21=ALT (outer), 22-23 transparent
     const rightThumb = document.createElement('div');
     rightThumb.className = 'thumb-cluster right';
+    const rightRotations = {
+        1: 'rotated-right-heavy',  // index 19 (RET) - inner, most rotation
+        2: 'rotated-right-medium', // index 20 (TAB) - middle
+        3: 'rotated-right-light'   // index 21 (ALT) - outer, minimal rotation
+    };
     layout.right.slice(18).forEach((keyData, index) => {
         const actualIndex = index + 18;
         const key = createKey(keyData, actualIndex, layer, 'right');
         if (!keyData.transparent) {
             key.classList.add('thumb-key');
-            if (index < 3) {
-                key.classList.add('rotated-right');
+            if (rightRotations[index]) {
+                key.classList.add(rightRotations[index]);
             }
         }
         rightThumb.appendChild(key);
