@@ -7,7 +7,7 @@
 let layouts = null;
 let originalLayouts = null; // Deep copy of original layouts for reset functionality
 let currentLayer = 'base';
-let currentZoom = 100;
+let currentZoom = 200;
 let selectedKey = null; // {layer, side, index}
 let lastKeyState = null; // Single-level undo state
 let comboMode = null; // null | {step: 'first'|'second', firstKey: {side, index}}
@@ -451,7 +451,7 @@ function zoomOut() {
 }
 
 function resetZoom() {
-    setZoom(100);
+    setZoom(200);
 }
 
 /**
@@ -1511,7 +1511,7 @@ function init() {
     initEventListeners();
     initSidebarListeners();
     renderLayout('base');
-    setZoom(100);
+    setZoom(200);
     updateUndoButton(); // Initialize undo button state
 }
 
