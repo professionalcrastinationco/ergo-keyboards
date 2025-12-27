@@ -46,6 +46,36 @@ const COMBO_COLORS = [
 ];
 
 /**
+ * Calculate relative luminance of a hex color
+ * @param {string} hex - Hex color string (e.g., '#ff0000')
+ * @returns {number} Luminance value 0-1 (0=dark, 1=light)
+ */
+function getLuminance(hex) {
+    // Remove # if present
+    hex = hex.replace('#', '');
+    const r = parseInt(hex.substr(0, 2), 16) / 255;
+    const g = parseInt(hex.substr(2, 2), 16) / 255;
+    const b = parseInt(hex.substr(4, 2), 16) / 255;
+
+    // Apply sRGB to linear conversion
+    const toLinear = (c) => c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+
+    // Calculate relative luminance (ITU-R BT.709)
+    return 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
+}
+
+/**
+ * Determine if a color needs light or dark text for contrast
+ * @param {string} hex - Hex color string
+ * @returns {string} 'light-text' or 'dark-text' class name
+ */
+function getTextContrastClass(hex) {
+    const luminance = getLuminance(hex);
+    // WCAG recommends using luminance threshold around 0.179
+    return luminance > 0.4 ? 'dark-text' : 'light-text';
+}
+
+/**
  * Get the grid position of a key from its index
  * @param {string} side - 'left' or 'right'
  * @param {number} index - Key index (0-23)
@@ -1133,7 +1163,7 @@ function renderNonAdjacentComboBadges(side, index, badges, layer) {
 
     badges.forEach(({ output, color }) => {
         const badge = document.createElement('div');
-        badge.className = 'combo-color-badge';
+        badge.className = 'combo-color-badge ' + getTextContrastClass(color);
         badge.textContent = output;
         badge.style.backgroundColor = color;
         container.appendChild(badge);

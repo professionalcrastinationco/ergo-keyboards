@@ -561,7 +561,9 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 2px;
+    max-width: calc(100% - 4px);
 }
 
 .tap-label {
@@ -611,15 +613,26 @@ footer {
 }
 
 .key .combo-color-badge {
-    position: absolute;
-    bottom: 2px;
-    padding: 1px 5px;
-    border-radius: 6px;
+    padding: 1px 4px;
+    border-radius: 4px;
     font-size: 7px;
     font-weight: 600;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Light text for dark backgrounds */
+.key .combo-color-badge.light-text {
     color: white;
     text-shadow: 0 1px 1px rgba(0,0,0,0.4);
-    white-space: nowrap;
+}
+
+/* Dark text for light backgrounds */
+.key .combo-color-badge.dark-text {
+    color: #1a1a2e;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.3);
 }
 
 .key .combo-badges-container {
@@ -628,7 +641,9 @@ footer {
     left: 50%;
     transform: translateX(-50%);
     display: flex;
+    justify-content: center;
     gap: 2px;
+    max-width: calc(100% - 4px);
 }
 
 /* Combo mode overlay effect */
