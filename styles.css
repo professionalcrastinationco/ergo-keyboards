@@ -594,6 +594,43 @@ footer {
     margin: 0 2px;
 }
 
+/* Layer-level combo badges (v1.1) */
+.combo-floating-badge {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #888;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 9px;
+    font-weight: 600;
+    color: #333;
+    z-index: 20;
+    pointer-events: none;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.key .combo-color-badge {
+    position: absolute;
+    bottom: 2px;
+    padding: 1px 5px;
+    border-radius: 6px;
+    font-size: 7px;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+    white-space: nowrap;
+}
+
+.key .combo-badges-container {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 2px;
+}
+
 /* Section styling for sidebar */
 .field-section {
     margin-top: 20px;

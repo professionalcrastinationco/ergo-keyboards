@@ -47,10 +47,10 @@ Plans:
 **Goal**: Render adjacent combos as floating badges between keys, non-adjacent as color-matched badges on each key
 **Depends on**: Phase 6
 **Research**: Unlikely (CSS/JS patterns established)
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 07-01: TBD
+- [x] 07-01: Add CSS and renderCombos() function for combo visualization
 
 #### Phase 8: Combo Editing
 
@@ -72,5 +72,5 @@ Plans:
 | 4. Combo Visualization | v1.0 | 1/1 | Complete | 2025-12-26 |
 | 5. Persistence & Export | v1.0 | 1/1 | Complete | 2025-12-26 |
 | 6. Combo Data Model | v1.1 | 1/1 | Complete | 2025-12-26 |
-| 7. Combo Rendering | v1.1 | 0/? | Not started | - |
+| 7. Combo Rendering | v1.1 | 1/1 | Complete | 2025-12-26 |
 | 8. Combo Editing | v1.1 | 0/? | Not started | - |

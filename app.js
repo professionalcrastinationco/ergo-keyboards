@@ -1017,7 +1017,116 @@ function renderLayout(layer) {
     // Re-apply zoom after layout renders
     requestAnimationFrame(() => {
         setZoom(currentZoom);
+        renderCombos(layer);
     });
+}
+
+/**
+ * Render combo badges for the current layer
+ * Adjacent combos: floating badge between keys
+ * Non-adjacent combos: colored badge on each key
+ * @param {string} layer - Layer name
+ */
+function renderCombos(layer) {
+    // Clear existing combo badges
+    document.querySelectorAll('.combo-floating-badge').forEach(el => el.remove());
+    document.querySelectorAll('.combo-badges-container').forEach(el => el.remove());
+
+    const layerData = layouts[layer];
+    if (!layerData.combos || layerData.combos.length === 0) return;
+
+    // Track non-adjacent badges per key for side-by-side display
+    const keyBadges = {}; // { "left-5": [{output, color}, ...] }
+
+    layerData.combos.forEach((combo, comboIndex) => {
+        const [key1, key2] = combo.keys;
+        const isAdjacent = areKeysAdjacent(key1, key2);
+
+        if (isAdjacent) {
+            renderAdjacentComboBadge(combo, key1, key2, layer);
+        } else {
+            // Assign color from palette
+            const color = COMBO_COLORS[comboIndex % COMBO_COLORS.length];
+
+            // Track badges for each key
+            const key1Id = `${key1.side}-${key1.index}`;
+            const key2Id = `${key2.side}-${key2.index}`;
+
+            if (!keyBadges[key1Id]) keyBadges[key1Id] = [];
+            if (!keyBadges[key2Id]) keyBadges[key2Id] = [];
+
+            keyBadges[key1Id].push({ output: combo.output, color });
+            keyBadges[key2Id].push({ output: combo.output, color });
+        }
+    });
+
+    // Render non-adjacent badges (grouped per key)
+    for (const [keyId, badges] of Object.entries(keyBadges)) {
+        const [side, indexStr] = keyId.split('-');
+        const index = parseInt(indexStr);
+        renderNonAdjacentComboBadges(side, index, badges, layer);
+    }
+}
+
+/**
+ * Render a floating badge between two adjacent keys
+ * @param {Object} combo - {keys, output}
+ * @param {Object} key1 - {side, index}
+ * @param {Object} key2 - {side, index}
+ * @param {string} layer - Layer name
+ */
+function renderAdjacentComboBadge(combo, key1, key2, layer) {
+    const el1 = getKeyElement(layer, key1.side, key1.index);
+    const el2 = getKeyElement(layer, key2.side, key2.index);
+
+    if (!el1 || !el2) return;
+
+    const container = document.getElementById('keyboard-container');
+    const containerRect = container.getBoundingClientRect();
+    const rect1 = el1.getBoundingClientRect();
+    const rect2 = el2.getBoundingClientRect();
+
+    // Calculate midpoint between key centers
+    const midX = (rect1.left + rect1.width/2 + rect2.left + rect2.width/2) / 2;
+    const midY = (rect1.top + rect1.height/2 + rect2.top + rect2.height/2) / 2;
+
+    // Create floating badge
+    const badge = document.createElement('div');
+    badge.className = 'combo-floating-badge';
+    badge.textContent = combo.output;
+
+    // Position relative to container
+    badge.style.left = `${midX - containerRect.left}px`;
+    badge.style.top = `${midY - containerRect.top}px`;
+    badge.style.transform = 'translate(-50%, -50%)';
+
+    container.appendChild(badge);
+}
+
+/**
+ * Render colored badges on a key for non-adjacent combos
+ * @param {string} side - 'left' or 'right'
+ * @param {number} index - Key index
+ * @param {Array} badges - [{output, color}, ...]
+ * @param {string} layer - Layer name
+ */
+function renderNonAdjacentComboBadges(side, index, badges, layer) {
+    const keyEl = getKeyElement(layer, side, index);
+    if (!keyEl) return;
+
+    // Create container for badges (side by side)
+    const container = document.createElement('div');
+    container.className = 'combo-badges-container';
+
+    badges.forEach(({ output, color }) => {
+        const badge = document.createElement('div');
+        badge.className = 'combo-color-badge';
+        badge.textContent = output;
+        badge.style.backgroundColor = color;
+        container.appendChild(badge);
+    });
+
+    keyEl.appendChild(container);
 }
 
 /**
@@ -1262,5 +1371,7 @@ window.keyboardEditor = {
     // Combo utilities (Phase 6)
     COMBO_COLORS,
     getKeyPosition,
-    areKeysAdjacent
+    areKeysAdjacent,
+    // Combo rendering (Phase 7)
+    renderCombos
 };
