@@ -1092,22 +1092,25 @@ function renderAdjacentComboBadge(combo, key1, key2, layer) {
     if (!el1 || !el2) return;
 
     const container = document.getElementById('keyboard-container');
-    const containerRect = container.getBoundingClientRect();
-    const rect1 = el1.getBoundingClientRect();
-    const rect2 = el2.getBoundingClientRect();
 
-    // Calculate midpoint between key centers
-    const midX = (rect1.left + rect1.width/2 + rect2.left + rect2.width/2) / 2;
-    const midY = (rect1.top + rect1.height/2 + rect2.top + rect2.height/2) / 2;
+    // Use offset properties for local coordinates (unaffected by CSS transforms)
+    const center1X = el1.offsetLeft + el1.offsetWidth / 2;
+    const center1Y = el1.offsetTop + el1.offsetHeight / 2;
+    const center2X = el2.offsetLeft + el2.offsetWidth / 2;
+    const center2Y = el2.offsetTop + el2.offsetHeight / 2;
+
+    // Calculate midpoint between key centers in local coordinates
+    const midX = (center1X + center2X) / 2;
+    const midY = (center1Y + center2Y) / 2;
 
     // Create floating badge
     const badge = document.createElement('div');
     badge.className = 'combo-floating-badge';
     badge.textContent = combo.output;
 
-    // Position relative to container
-    badge.style.left = `${midX - containerRect.left}px`;
-    badge.style.top = `${midY - containerRect.top}px`;
+    // Position at midpoint (local coordinates work regardless of zoom)
+    badge.style.left = `${midX}px`;
+    badge.style.top = `${midY}px`;
     badge.style.transform = 'translate(-50%, -50%)';
 
     container.appendChild(badge);
