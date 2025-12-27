@@ -1026,6 +1026,7 @@ function renderLayout(layer) {
             if (leftRotations[index]) {
                 key.classList.add(leftRotations[index]);
             }
+            if (index === 5) key.classList.add('tall'); // SPACE key
         }
         leftThumb.appendChild(key);
     });
@@ -1036,14 +1037,14 @@ function renderLayout(layer) {
         rightHalf.appendChild(createKey(keyData, index, layer, 'right'));
     });
 
-    // Right thumb cluster rotations per user spec:
-    // RET=0deg, Tab=30deg counter-clockwise, Alt=60deg counter-clockwise
+    // Right thumb cluster rotations - mirroring left side:
+    // RET (inner, like SPACE) = most rotation, ALT (outer, like LGUI) = no rotation
     const rightThumb = document.createElement('div');
     rightThumb.className = 'thumb-cluster right';
     const rightRotations = {
-        1: 'rotate-0',      // index 19 (RET) - 0 degrees
-        2: 'rotate-neg30',  // index 20 (TAB) - 30 degrees counter-clockwise
-        3: 'rotate-neg60'   // index 21 (ALT) - 60 degrees counter-clockwise
+        1: 'rotate-neg60',  // index 19 (RET) - mirrors SPACE (20deg)
+        2: 'rotate-neg30',  // index 20 (TAB) - mirrors NavNum (10deg)
+        3: 'rotate-0'       // index 21 (ALT) - mirrors LGUI (0deg)
     };
     layout.right.slice(18).forEach((keyData, index) => {
         const actualIndex = index + 18;
@@ -1053,6 +1054,7 @@ function renderLayout(layer) {
             if (rightRotations[index]) {
                 key.classList.add(rightRotations[index]);
             }
+            if (index === 1) key.classList.add('tall'); // RET key
         }
         rightThumb.appendChild(key);
     });
