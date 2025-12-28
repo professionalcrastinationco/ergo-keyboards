@@ -10,92 +10,24 @@ None
 
 ## Milestones
 
-- ✅ **v1.0 MVP** - Phases 1-5 (shipped 2025-12-26)
-- 🚧 **v1.1 Enhanced Combo Visualization** - Phases 6-8.2 (in progress)
+- [v1.0 MVP](milestones/v1.0-ROADMAP.md) - Phases 1-5 (shipped 2025-12-26)
+- [v1.1 Enhanced Combo Visualization](milestones/v1.1-ROADMAP.md) - Phases 6-8.2 (shipped 2025-12-27)
 
 ## Phases
 
 <details>
-<summary>✅ v1.0 MVP (Phases 1-5) - SHIPPED 2025-12-26</summary>
+<summary>v1.0 MVP (Phases 1-5) - SHIPPED 2025-12-26</summary>
 
 See [v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md) for full details.
 
 </details>
 
-### 🚧 v1.1 Enhanced Combo Visualization (In Progress)
+<details>
+<summary>v1.1 Enhanced Combo Visualization (Phases 6-8.2) - SHIPPED 2025-12-27</summary>
 
-**Milestone Goal:** Improve combo key display with visual badges between adjacent keys and color-matched badges for non-adjacent combos, plus intuitive combo creation mode.
+See [v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md) for full details.
 
-**UI/UX Decisions:**
-- Exit combo mode: ESC key or click outside
-- Adjacent badge position: Centered at midpoint between keys
-- Non-adjacent badge position: Bottom center of key
-- Multiple combos per key: Allowed, badges side by side
-
-#### Phase 6: Combo Data Model
-
-**Goal**: Refactor combo storage from per-key to layer-level with position-based references for adjacency detection
-**Depends on**: v1.0 complete
-**Research**: Unlikely (internal refactor)
-**Plans**: 1 plan
-
-Plans:
-- [x] 06-01: Add color palette, adjacency detection, layer-level combos array
-
-#### Phase 7: Combo Rendering
-
-**Goal**: Render adjacent combos as floating badges between keys, non-adjacent as color-matched badges on each key
-**Depends on**: Phase 6
-**Research**: Unlikely (CSS/JS patterns established)
-**Plans**: 1 plan
-
-Plans:
-- [x] 07-01: Add CSS and renderCombos() function for combo visualization
-
-#### Phase 8: Combo Editing
-
-**Goal**: Add Combo mode (click two keys, enter output), sidebar combo list, delete functionality
-**Depends on**: Phase 7
-**Research**: Unlikely (editing patterns from v1.0)
-**Plans**: 1 plan
-
-Plans:
-- [x] 08-01: Add combo mode UI, creation flow, sidebar list, delete functionality
-
-#### Phase 8.1: Combo Badge Polish (INSERTED)
-
-**Goal**: Fix combo badge centering, text contrast, and zoom-related positioning issues discovered during testing
-**Depends on**: Phase 8
-**Research**: None (bug fixes)
-**Plans**: 1 plan
-
-Plans:
-- [x] 08.1-01: Center badges, add luminance-based text contrast, fix zoom positioning
-
-**Details:**
-Bug fixes discovered after Phase 8 completion:
-- Combo badges were right-aligned instead of centered
-- Long labels overflowed key boundaries
-- Light-colored badges had poor text contrast (white on light backgrounds)
-- Adjacent combo badges positioned incorrectly at non-100% zoom levels
-
-#### Phase 8.2: Fix Thumb Cluster Rotation (INSERTED)
-
-**Goal**: Fix the thumb cluster keys rotation angles to match the reference keymap-drawer image
-**Depends on**: Phase 8.1
-**Research**: None (visual matching)
-**Plans**: 1 plan
-
-Plans:
-- [x] 08.2-01: Add graduated rotation classes and apply to thumb cluster keys
-
-**Details:**
-Applied graduated rotation angles to thumb cluster keys:
-- Inner keys (closest to center gap): ±15deg
-- Middle keys: ±10deg
-- Outer keys: ±5deg
-
-Keys now fan outward from the center gap as shown in keymap-drawer reference.
+</details>
 
 ## Progress
 
