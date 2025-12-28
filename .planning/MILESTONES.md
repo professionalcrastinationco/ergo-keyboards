@@ -27,11 +27,11 @@
 
 ---
 
-## v1.1 Enhanced Combo Visualization (Shipped: 2025-12-26)
+## v1.1 Enhanced Combo Visualization (Shipped: 2025-12-27)
 
-**Delivered:** Layer-level combo system with visual badges - floating badges between adjacent keys, color-matched badges for non-adjacent combos, and full combo editing workflow.
+**Delivered:** Layer-level combo system with visual badges - floating badges between adjacent keys, color-matched badges for non-adjacent combos, full combo editing workflow, and corrected thumb cluster rotation.
 
-**Phases completed:** 6-8 (3 plans total)
+**Phases completed:** 6-8.2 (5 plans total, including 2 inserted phases)
 
 **Key accomplishments:**
 
@@ -41,16 +41,16 @@
 - Implemented color-matched badges on non-adjacent combo keys
 - Added "Add Combo" mode with two-click key selection
 - Added sidebar combo list with delete functionality
-- Added ESC/click-outside to exit combo mode
+- Fixed combo badge centering, text contrast (luminance-based), and zoom positioning
+- Corrected thumb cluster rotation angles to mirror left/right sides
 
 **Stats:**
 
-- 3 phases, 3 plans
-- ~400 lines of new JavaScript
-- ~80 lines of new CSS
-- Same day as v1.0
+- 5 phases, 5 plans (including Phase 8.1 and 8.2 inserted for bug fixes)
+- 2,876 total lines of code
+- 2 days (2025-12-26 to 2025-12-27)
 
-**Git range:** `9b8093f` -> TBD
+**Git range:** `feat(06-01)` -> `9fcfbdb`
 
 **What's next:** TBD - gathering user feedback
 

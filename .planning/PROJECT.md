@@ -1,17 +1,19 @@
 # Ergo Keyboard Layout Editor
 
-## Current State (Updated: 2025-12-26)
+## Current State (Updated: 2025-12-27)
 
-**Shipped:** v1.0 MVP (2025-12-26)
-**Status:** Complete - functional offline web app
-**Codebase:** 4,863 LOC (JavaScript/CSS/JSON), vanilla JS, no dependencies
+**Shipped:** v1.1 Enhanced Combo Visualization (2025-12-27)
+**Status:** Complete - functional offline web app with combo editing
+**Codebase:** 2,876 LOC (JavaScript/CSS/JSON/HTML), vanilla JS, no dependencies
 
-**What shipped:**
-- Interactive keyboard layout editor for 36-key split ergonomic keyboards
-- Click any key, edit via sidebar panel (primary, secondary, hold, combos)
-- Combo visualization: modifier badges, layer-tap, chord notation
-- LocalStorage auto-save, JSON import/export
-- Works fully offline after initial load
+**What shipped (v1.1):**
+- Layer-level combo system with visual badges
+- Floating badges between adjacent combo keys
+- Color-matched badges for non-adjacent combos
+- Combo creation mode (click two keys, enter output)
+- Sidebar combo list with delete functionality
+- Luminance-based text contrast for badge readability
+- Corrected thumb cluster rotation mirroring left/right sides
 
 ## Vision
 
