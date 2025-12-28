@@ -19,11 +19,11 @@
 
 ## Current Position
 
-Milestone: v1.1 Enhanced Combo Visualization - SHIPPED
-Phase: All phases complete (6, 7, 8, 8.1, 8.2)
-Plan: 5/5 complete
-Status: MILESTONE ARCHIVED
-Last activity: 2025-12-27 - v1.1 milestone shipped
+Milestone: v1.2 Layout Accuracy Improvements - SHIPPED
+Phase: 9 - Thumb Cluster Horizontal Alignment (Complete)
+Plan: 1/1 complete
+Status: MILESTONE COMPLETE
+Last activity: 2025-12-28 - Phase 9 complete, v1.2 shipped
 
 Progress: ██████████ 100%
 
@@ -80,6 +80,7 @@ Progress: ██████████ 100%
 | v1.1 | Non-adjacent badge: bottom center | Consistent position, doesn't obscure labels |
 | v1.1 | Multi-combo: badges side by side | Allow keys in multiple combos, show all |
 | v1.1 | Thumb rotation: graduated angles | Inner keys ±15°, middle ±10°, outer ±5° - fan outward from center gap |
+| v1.2 | Thumb horizontal alignment | translateX(±50px) shifts clusters inward, gap 140px for clearance |
 
 ### Roadmap Evolution
 
@@ -88,6 +89,10 @@ Progress: ██████████ 100%
   - Fixed: badge centering, text contrast, zoom positioning, overflow
 - Phase 8.2 inserted after Phase 8.1: Fix Thumb Cluster Rotation (URGENT)
   - Thumb cluster key rotation angles don't match reference keymap-drawer image
+- Phase 9 added (v1.2): Thumb Cluster Horizontal Alignment
+  - Move thumb clusters inward to align with correct main columns
+  - Layer Up aligns with T/G/B, Layer Down aligns with Y/H/N
+  - Requires increasing gap between halves to prevent overlap
 
 ### Deferred Issues
 
@@ -106,6 +111,6 @@ Drift notes: None
 
 ## Session Continuity
 
-Last session: 2025-12-27
-Stopped at: Phase 8.2 complete - v1.1 milestone finished
+Last session: 2025-12-28
+Stopped at: Phase 9 added - ready for planning
 Resume file: None

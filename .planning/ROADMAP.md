@@ -12,6 +12,7 @@ None
 
 - [v1.0 MVP](milestones/v1.0-ROADMAP.md) - Phases 1-5 (shipped 2025-12-26)
 - [v1.1 Enhanced Combo Visualization](milestones/v1.1-ROADMAP.md) - Phases 6-8.2 (shipped 2025-12-27)
+- [v1.2 Layout Accuracy Improvements](milestones/v1.2-ROADMAP.md) - Phase 9 (shipped 2025-12-28)
 
 ## Phases
 
@@ -29,6 +30,19 @@ See [v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md) for full details.
 
 </details>
 
+### v1.2 Layout Accuracy Improvements (Phase 9) - SHIPPED 2025-12-28
+
+See [v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md) for full details.
+
+#### Phase 9: Thumb Cluster Horizontal Alignment
+
+**Goal:** Adjust thumb cluster horizontal positioning so inner thumb keys align vertically with specific main columns
+**Depends on:** v1.1 complete
+**Plans:** 1 plan
+
+Plans:
+- [x] 09-01: Adjust CSS positioning for thumb clusters and center gap
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -43,3 +57,4 @@ See [v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md) for full details.
 | 8. Combo Editing | v1.1 | 1/1 | Complete | 2025-12-26 |
 | 8.1. Combo Badge Polish | v1.1 | 1/1 | Complete | 2025-12-27 |
 | 8.2. Fix Thumb Cluster Rotation | v1.1 | 1/1 | Complete | 2025-12-27 |
+| 9. Thumb Cluster Horizontal Alignment | v1.2 | 1/1 | Complete | 2025-12-28 |

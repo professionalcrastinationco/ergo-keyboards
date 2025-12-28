@@ -66,7 +66,7 @@ h1 {
 .keyboard-container {
     display: flex;
     justify-content: center;
-    gap: 60px;
+    gap: 140px;
     flex-wrap: wrap;
     padding: 40px 20px;
     background: #16162a;
@@ -193,6 +193,7 @@ h1 {
 }
 
 /* Thumb cluster positioning */
+/* Shifted inward so NavNum aligns with T/G/B column, TAB/Symbols with Y/H/N */
 .thumb-cluster {
     display: flex;
     gap: 6px;
@@ -200,10 +201,12 @@ h1 {
     align-items: flex-start;
     grid-column: span 6;
     padding-top: 10px;
+    transform: translateX(50px);  /* Shift right toward center */
 }
 
 .thumb-cluster.right {
     justify-content: flex-start;
+    transform: translateX(-50px);  /* Shift left toward center */
 }
 
 .thumb-key {
