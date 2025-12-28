@@ -30,18 +30,12 @@ See [v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md) for full details.
 
 </details>
 
-### v1.2 Layout Accuracy Improvements (Phase 9) - SHIPPED 2025-12-28
+<details>
+<summary>v1.2 Layout Accuracy Improvements (Phase 9) - SHIPPED 2025-12-28</summary>
 
 See [v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md) for full details.
 
-#### Phase 9: Thumb Cluster Horizontal Alignment
-
-**Goal:** Adjust thumb cluster horizontal positioning so inner thumb keys align vertically with specific main columns
-**Depends on:** v1.1 complete
-**Plans:** 1 plan
-
-Plans:
-- [x] 09-01: Adjust CSS positioning for thumb clusters and center gap
+</details>
 
 ## Progress
 
